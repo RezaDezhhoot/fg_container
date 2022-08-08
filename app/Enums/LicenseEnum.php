@@ -3,15 +3,26 @@
 namespace App\Enums;
 
 use BenSampo\Enum\Enum;
-
-/**
- * @method static static OptionOne()
- * @method static static OptionTwo()
- * @method static static OptionThree()
- */
 final class LicenseEnum extends Enum
 {
-    const OptionOne =   0;
-    const OptionTwo =   1;
-    const OptionThree = 2;
+    const IS_USED = 'is_used';
+    const IS_NOT_USED = 'is_not_used';
+
+    const ENTER = 'enter', EXIT = 'exit' ;
+
+    public static function getStatus()
+    {
+        return [
+            self::IS_USED => 'استفاده شده',
+            self::IS_NOT_USED => 'استفاده نشده',
+        ];
+    }
+
+    public static function getActions()
+    {
+        return [
+            self::ENTER => 'ورودی',
+            self::EXIT => 'خروجی'
+        ];
+    }
 }

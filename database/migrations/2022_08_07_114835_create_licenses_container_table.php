@@ -19,8 +19,8 @@ return new class extends Migration
             $table->bigInteger('product_id');
             $table->string('product_title');
             $table->string('status');
-            $table->bigInteger('form_enter_id');
-            $table->bigInteger('form_exit_id');
+            $table->bigInteger('form_enter_id')->nullable();
+            $table->bigInteger('form_exit_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

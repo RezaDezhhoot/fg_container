@@ -20,4 +20,17 @@ class Role extends \Spatie\Permission\Models\Role
     protected static $dontLogIfAttributesChangedOnly = ['updated_at'];
     protected static $logOnlyDirty = true;
     protected array $searchAbleColumns = ['name'];
+
+
+    public function scopeFilter($q , ...$ignore)
+    {
+        $roles = ['admin','super_admin','administrator'];
+        foreach ($ignore as $key => $value) {
+            if (in_array($value,$roles)) {
+                unset($roles[$key]);
+            }
+        }
+
+        return $q->whereNotIn('name',$roles);
+    }
 }

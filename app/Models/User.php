@@ -15,6 +15,9 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable , HasRoles , Searchable;
 
+
+    protected array $searchAbleColumns = ['email','phone'];
+    
     /**
      * The attributes that are mass assignable.
      *

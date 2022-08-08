@@ -48,12 +48,15 @@
                     </a>
                 </li>
                 {{-- <x-admin.menu-item href="{{route('profile')}}" icon="flaticon2-user" :active="request()->routeIs('admin.profile')" label="پروفایل" /> --}}
-                <x-admin.menu-item href="{{route('container')}}" icon="far fa-hdd" :active="request()->routeIs('container')" label="مخزن لایسنس ها" />
-             
-                <x-admin.menu-item href="{{route('role')}}" icon="fas fa-key" :active="request()->routeIs(['role','store.role'])" label="نقش ها  " />
-                
-                <x-admin.menu-item href="{{route('user')}}" icon="flaticon-users-1" :active="request()->routeIs(['user','store.user'])" label="کاربران " />
-
+                @can('show_container')      
+                    <x-admin.menu-item href="{{route('container')}}" icon="far fa-hdd" :active="request()->routeIs('container')" label="مخزن لایسنس ها" />
+                @endcan 
+                @can('show_roles')    
+                    <x-admin.menu-item href="{{route('role')}}" icon="fas fa-key" :active="request()->routeIs(['role','store.role'])" label="نقش ها  " />
+                @endcan        
+                @can('show_users')
+                    <x-admin.menu-item href="{{route('user')}}" icon="flaticon-users-1" :active="request()->routeIs(['user','store.user'])" label="کاربران " />
+                @endcan    
                 <x-admin.menu-item href="{{route('logout')}}" icon="flaticon-logout" :active="request()->routeIs('logout')" label="خروج" />
             </ul>
             <!--end::Menu Nav-->
