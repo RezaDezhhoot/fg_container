@@ -15,6 +15,14 @@ return new class extends Migration
     {
         Schema::create('licenses_container_history', function (Blueprint $table) {
             $table->id();
+            $table->string('action');
+            $table->integer('count');
+            $table->decimal('enter_price',52);
+            $table->decimal('exit_price',52);
+            $table->string('order_id');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->text('description')->nullable();
+            $table->string('product_title');
             $table->timestamps();
         });
     }

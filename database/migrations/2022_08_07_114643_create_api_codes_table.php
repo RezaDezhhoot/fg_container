@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('api_codes', function (Blueprint $table) {
             $table->id();
+            $table->text('code')->unique();
             $table->timestamps();
         });
     }

@@ -15,6 +15,13 @@ return new class extends Migration
     {
         Schema::create('licenses_container', function (Blueprint $table) {
             $table->id();
+            $table->string('license')->unique();
+            $table->bigInteger('product_id');
+            $table->string('product_title');
+            $table->string('status');
+            $table->bigInteger('form_enter_id');
+            $table->bigInteger('form_exit_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
