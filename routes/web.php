@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\Containers\Container;
 use App\Http\Controllers\Admin\Dashboard\Dashboard;
+use App\Http\Controllers\Admin\Requests\IndexRequest;
 use App\Http\Controllers\Admin\Roles\IndexRole;
 use App\Http\Controllers\Admin\Roles\StoreRole;
 use App\Http\Controllers\Admin\Users\IndexUser;
@@ -18,10 +19,12 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/',Dashboard::class);
 
 Route::middleware('auth')->prefix('container')->group(function() {
     Route::get('/',Dashboard::class)->name('dashboard');
-    
+    Route::get('/requests', IndexRequest::class)->name('requests');
+
     Route::get('/users',IndexUser::class)->name('user');
     Route::get('/users/{action}/{id?}',StoreUser::class)->name('store.user');
 

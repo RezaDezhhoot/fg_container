@@ -64,12 +64,9 @@
 {{--<script src="https://keenthemes.com/metronic/assets/js/engage_code.js"></script>--}}
 <script src="{{asset('admin/plugins/custom/fullcalendar/fullcalendar.bundle.js')}}"></script>
 <script src="{{asset('admin/js/pages/custom/chat/chat.js') }}"></script>
-<script src="{{ asset('vendor/laravel-filemanager/js/stand-alone-button.js') }}"></script>
 <script src="{{asset('admin/plugins/custom/datepicker/persian-date.min.js')}}"></script>
 <script src="{{asset('admin/plugins/custom/datepicker/persian-datepicker.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="{{asset('/vendor/laravel-filemanager/js/stand-alone-button.js')}}"></script>
-<script src="{{asset('bower_components/jquery.countdown/dist/jquery.countdown.js')}}"></script>
 
 <script src="{{asset('admin/js/pages/crud/forms/widgets/bootstrap-datepicker.js') }}"></script>
 {{--<script src="{{asset('admin/js/pages/custom/wizard/wizard-2.js') }}"></script>--}}
@@ -86,6 +83,16 @@
         const id = '#' + data + 'Modal';
         $(id).modal('hide');
 
+    })
+    Livewire.on('formResult', data => {
+        Swal.fire({
+            position: 'center-center',
+            icon: 'success',
+            title: 'خلاصه فرم : ',
+            text: ` شماره فرم : ${data.form_key}  کد ها : ${data.licenses} `,
+            showConfirmButton: true,
+            timer: 1000500
+        })
     })
 
     Livewire.on('notify', data => {
@@ -115,6 +122,5 @@
         })
     };
 </script>
-<script src="https://file-manager.webmai.ru/vendor/file-manager/js/file-manager.js"></script>
 
 @stack('scripts')

@@ -17,13 +17,14 @@ class User extends Authenticatable
 
 
     protected array $searchAbleColumns = ['email','phone'];
-    
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $guarded = ['id'];
+    
 
     /**
      * The attributes that should be hidden for serialization.

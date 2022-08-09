@@ -8,6 +8,6 @@ class Dashboard extends Component
 {
     public function render()
     {
-        return view('admin.dashboard.dashboard');
+        return view('admin.dashboard.dashboard')->extends('admin.includes.admin');
     }
 }
