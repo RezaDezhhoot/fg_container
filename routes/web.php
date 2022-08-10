@@ -20,9 +20,9 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/',Dashboard::class);
+Route::middleware(['auth'])->get('/',Dashboard::class);
 
-Route::middleware('auth')->prefix('container')->group(function() {
+Route::middleware(['auth'])->prefix('container')->group(function() {
     Route::get('/',Dashboard::class)->name('dashboard');
     Route::get('/requests', IndexRequest::class)->name('requests');
 
