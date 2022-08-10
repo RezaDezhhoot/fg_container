@@ -47,6 +47,7 @@
                         <span class="menu-text">داشبورد</span>
                     </a>
                 </li>
+                <x-admin.menu-item href="{{route('profile')}}" icon="far fa-user" :active="request()->routeIs('profile')" label="پروفایل" />
                 @can('show_container')
                     <x-admin.menu-item href="{{route('container')}}" icon="far fa-hdd" :active="request()->routeIs('container')" label="مخزن لایسنس ها" />
                 @endcan

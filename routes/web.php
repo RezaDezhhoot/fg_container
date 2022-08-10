@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\Containers\Container;
 use App\Http\Controllers\Admin\Dashboard\Dashboard;
+use App\Http\Controllers\Admin\Profile\Profile;
 use App\Http\Controllers\Admin\Requests\IndexRequest;
 use App\Http\Controllers\Admin\Roles\IndexRole;
 use App\Http\Controllers\Admin\Roles\StoreRole;
@@ -32,6 +33,7 @@ Route::middleware('auth')->prefix('container')->group(function() {
     Route::get('/roles/{action}/{id?}',StoreRole::class)->name('store.role');
 
     Route::get('/container',Container::class)->name('container');
+    Route::get('/profile', Profile::class)->name('profile');
 });
 
 Route::middleware('guest')->get('auth',App\Http\Controllers\Site\Auth\Auth::class)->name('auth');

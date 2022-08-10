@@ -111,7 +111,7 @@
                                         <td>{{ $item->id  }}</td>
                                         <td>{{ $item->count }}</td>
                                         <td>{{ number_format($item->enter_price). 'تومان' ?? '' }}</td>
-                                        <td>{{ $item->user->name }}</td>
+                                        <td>{{ $item->user->name ?? 'api' }}</td>
                                         <td>{{ $item->product_title }}</td>
                                         <td>{{ $item->created_at }}</td>
                                         <td>{{ $item->updated_at }}</td>
@@ -158,7 +158,7 @@
                                         <td>{{ number_format($item->enter_price). 'تومان' ?? '' }}</td>
                                         <td>{{ number_format($item->exit_price). 'تومان' ?? '' }}</td>
                                         <td>{{ $item->order_id ?? '-' }}</td>
-                                        <td>{{ $item->user->name }}</td>
+                                        <td>{{ $item->user->name ?? 'api' }}</td>
                                         <td>{{ $item->product_title }}</td>
                                         <td>{{ $item->created_at }}</td>
                                         <td>{{ $item->updated_at }}</td>
@@ -207,7 +207,7 @@
                                             <td>{{ number_format($item->enter_price). 'تومان' ?? '' }}</td>
                                             <td>{{ number_format($item->exit_price). 'تومان' ?? '' }}</td>
                                             <td>{{ $item->order_id ?? '-' }}</td>
-                                            <td>{{ $item->user->name }}</td>
+                                            <td>{{ $item->user->name ?? 'api' }}</td>
                                             <td>{{ $item->product_title }}</td>
                                             <td>{{ $item->created_at }}</td>
                                             <td>{{ $item->updated_at }}</td>

@@ -14,6 +14,7 @@
                             <th> کد درخواست</th>
                             <th>ای پی</th>
                             <th>وضعیت</th>
+                            <th>ادرس مبدا</th>
                             <th>کد سفارش</th>
                             <th>متن sms</th>
                             <th>تاریخ</th>
@@ -26,12 +27,13 @@
                                 <td>{{ $item->code }}</td>
                                 <td>{{ $item->ip }}</td>
                                 <td>{{ $item->status }}</td>
+                                <td>{{ $item->http_refrer }}</td>
                                 <td>{{ $item->order_id }}</td>
                                 <td>{{ $item->sms }}</td>
                                 <td>{{ $item->created_at }}</td>
                             </tr>
                         @empty
-                            <td class="text-center" colspan="10">
+                            <td class="text-center" colspan="12">
                                 دیتایی جهت نمایش وجود ندارد
                             </td>
                         @endforelse

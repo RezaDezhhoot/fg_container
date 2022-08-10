@@ -69,6 +69,7 @@
 {{--<script src="{{asset('admin/js/pages/custom/login/login-general.js')}}"></script>--}}
 <!--end::Page Scripts-->
 @livewireScripts
+@stack('scripts')
 </body>
 <!--end::Body-->
 </html>

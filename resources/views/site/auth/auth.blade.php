@@ -22,5 +22,24 @@
             @endif
         </div>
     </div>
+    <div class="form-group mb-5">
+        <div class="g-recaptcha d-inline-block" data-sitekey="{{ config('services.recaptcha.site_key') }}"
+             data-callback="reCaptchaCallback" wire:ignore></div>
+        @error('recaptcha')<span class="invalid-feedback d-block">{{ $message }}</span>@enderror
+    </div>
     <button type="submit" id="kt_login_signin_submit" class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-4">ورود</button>
 </form>
+@push('scripts')
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <script>
+        function reCaptchaCallback(response) {
+            @this.set('recaptcha', response);
+        }
+
+
+        Livewire.on('resetReCaptcha', () => {
+            grecaptcha.reset();
+        });
+    </script>
+@endpush

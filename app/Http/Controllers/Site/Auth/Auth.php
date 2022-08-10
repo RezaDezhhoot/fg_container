@@ -7,10 +7,12 @@ use Livewire\Component;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Rules\ReCaptchaRule;
+
 
 class Auth extends Component
 {
-
+    public $recaptcha;
     public $phone , $password , $name, $otp ;
     public $logo , $authImage , $sms = false , $data = [] ;
     public $passwordLabel = 'رمز عبور';
@@ -23,13 +25,15 @@ class Auth extends Component
 
     public function login()
     {
-        
+
         $this->validate([
             'phone' => ['required','string','max:250'],
-            'password' => ['required','string','max:250']
+            'password' => ['required','string','max:250'],
+            'recaptcha' => ['required', new ReCaptchaRule],
         ],[],[
             'phone' => 'شماره همراه یا نام کاربری',
             'password' => 'رمز عبور',
+            'recaptcha' => 'فیلد امنیتی'
         ]);
 
         $user = User::where('phone', $this->phone)->orWhere('email',$this->phone)->first();
@@ -39,7 +43,7 @@ class Auth extends Component
                 request()->session()->regenerate();
                 $user->otp = null;
                 $user->save();
-                
+
                 return redirect()->intended(route('dashboard'));
             } else
                 return $this->addError('password','گذواژه یا شماره همراه اشتباه می باشد.');

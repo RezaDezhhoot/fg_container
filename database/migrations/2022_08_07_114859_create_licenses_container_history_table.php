@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('enter_price',52);
             $table->decimal('exit_price',52);
             $table->string('order_id');
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->bigInteger('user_id')->nullable();
             $table->text('description')->nullable();
             $table->string('product_title');
             $table->timestamps();

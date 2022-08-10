@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
 
 class SendLicenseRequest extends FormRequest
 {
@@ -21,10 +22,32 @@ class SendLicenseRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+
+    #[ArrayShape(['phone' => "string", 'code' => "string", 'product_title' => "string", 'order_id' => "string", 'count' => "string", 'exit_price' => "string"])]
+    public function rules(): array
     {
         return [
-            //
+            'phone' => 'required|string|size:11',
+            'code' => 'required|string',
+            'product_title' => 'required|string|max:250',
+            'count' => 'required|integer|between:1,100',
+            'exit_price' =>'required|between:1,999999999999.9999999',
+        ];
+    }
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    #[ArrayShape(['phone' => "string", 'code' => "string", 'order_id' => "string", 'count' => "string", 'exit_price' => "string", 'product_title' => "string"])]
+    public function attributes(): array
+    {
+        return [
+            'phone' => 'شماره همراه',
+            'code' => 'کد احراز هویت',
+            'count' => 'تعداد',
+            'exit_price' => 'قیمت فروش',
+            'product_title' => 'عنوان محصول'
         ];
     }
 }

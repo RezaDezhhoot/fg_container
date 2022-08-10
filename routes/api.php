@@ -15,4 +15,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/v1/data', SendLicenseController::class);
+Route::post('/v1/data', SendLicenseController::class);

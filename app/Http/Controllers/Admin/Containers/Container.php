@@ -9,6 +9,7 @@ use App\Models\ContainerHistory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Http;
 
 class Container extends BaseComponent
 {
@@ -26,12 +27,12 @@ class Container extends BaseComponent
 
     public function mount()
     {
-        $this->data['product'] = [
-            '1' => 'test',
-            '2' => 'test 2',
-            '3' => 'test 3',
-            '4' => 'asd',
-        ];
+        $response  = Http::accept('application/json')
+            ->get('https://farsgamer.com/api/products');
+        $products = collect($response->json()['data']['products']['records'])
+            ->pluck('title','id')
+            ->toArray();
+        $this->data['product'] = $products;
         $this->data['status'] = LicenseEnum::getStatus();
     }
 
@@ -81,19 +82,27 @@ class Container extends BaseComponent
     {
         return [
             'all' => [
-                'count' => ModelsContainer::count(),
+                'count' => ModelsContainer::when($this->product,function($q) {
+                    return $q->where('product_id',$this->product);
+                })->count(),
                 'label' => 'همه'
             ],
             LicenseEnum::IS_USED => [
-                'count' => ModelsContainer::where('status',LicenseEnum::IS_USED)->count(),
+                'count' => ModelsContainer::when($this->product,function($q) {
+                    return $q->where('product_id',$this->product);
+                })->where('status',LicenseEnum::IS_USED)->count(),
                 'label' => LicenseEnum::getStatus()[LicenseEnum::IS_USED]
             ],
             LicenseEnum::IS_NOT_USED => [
-                'count' => ModelsContainer::where('status',LicenseEnum::IS_NOT_USED)->count(),
+                'count' => ModelsContainer::when($this->product,function($q) {
+                    return $q->where('product_id',$this->product);
+                })->where('status',LicenseEnum::IS_NOT_USED)->count(),
                 'label' => LicenseEnum::getStatus()[LicenseEnum::IS_NOT_USED]
             ],
             'deleted' => [
-                'count' => ModelsContainer::onlyTrashed()->count(),
+                'count' => ModelsContainer::when($this->product,function($q) {
+                    return $q->where('product_id',$this->product);
+                })->onlyTrashed()->count(),
                 'label' => 'حذف شده ها'
             ],
 
@@ -332,7 +341,6 @@ class Container extends BaseComponent
 
             DB::commit();
             $this->emitHideModal('form');
-//            $this->emitNotify('فرم با موفقیت اضافه شد');
 
         } catch (\Exception $e) {
             DB::rollBack();

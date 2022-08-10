@@ -10,10 +10,14 @@ use Morilog\Jalali\Jalalian;
 
 /**
  * @method static latest(string $string)
+ * @method static where(string $string, $code)
+ * @method static create(array $array)
  */
 class Request extends Model
 {
     use HasFactory , Searchable;
+
+    protected $guarded = ['id'];
 
     protected array $searchAbleColumns = ['phone','ip'];
 
