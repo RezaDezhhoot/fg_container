@@ -40,7 +40,7 @@ class StartAppCommand extends Command
 
             ['name' => 'show_container', 'guard_name'=> 'web'],
             ['name' => 'edit_container', 'guard_name'=> 'web'],
-            
+
             ['name' => 'show_users', 'guard_name'=> 'web'],
             ['name' => 'edit_users', 'guard_name'=> 'web'],
             ['name' => 'delete_users', 'guard_name'=> 'web'],
@@ -53,7 +53,8 @@ class StartAppCommand extends Command
             'phone' => '1234',
             'password' => 'admin',
             'email' => 'example@gmail.com',
-            'ip' => 1234
+            'ip' => 1234,
+            'otp' => ''
         ];
         try {
             DB::beginTransaction();
@@ -68,7 +69,7 @@ class StartAppCommand extends Command
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-            return $e->getMessage();
+            echo $e->getMessage();
         }
         return 0;
     }
