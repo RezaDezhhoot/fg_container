@@ -348,4 +348,11 @@ class Container extends BaseComponent
             $this->emitNotify('خطا در هنگام ثبت اطلاعات','warning');
         }
     }
+
+    public function deleteHistory($id)
+    {
+        $this->authorizing('edit_container');
+        ContainerHistory::destroy($id);
+        $this->emitNotify('فرم با موقیت حذف شد');
+    }
 }

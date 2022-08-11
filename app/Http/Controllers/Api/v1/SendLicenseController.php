@@ -154,7 +154,7 @@ class SendLicenseController extends Controller
     private function rateLimiter($request_ip): bool
     {
         $rateKey = 'verify-attempt:' . $request_ip;
-        if (RateLimiter::tooManyAttempts($rateKey, 4)) {
+        if (RateLimiter::tooManyAttempts($rateKey, 8)) {
             return true;
         }
         RateLimiter::hit($rateKey, 3 * 60 * 60);

@@ -118,7 +118,7 @@
                                         <td>{{ $item->description }}</td>
                                         <td>
                                             <button wire:click="historyFormEnter({{$item->id}})" class="btn btn-outline-success btn-sm">ویرایش <i class="fa fa-edit"></i></button>
-                                            <button onclick="deleteFormContainer({{$item->id}})" class="btn btn-outline-danger btn-sm">حذف <i class="fa fa-trash"></i></button>
+                                            <button onclick="deleteHistory({{$item->id}})" class="btn btn-outline-danger btn-sm">حذف <i class="fa fa-trash"></i></button>
                                         </td>
 
                                     </tr>
@@ -165,7 +165,7 @@
                                         <td>{{ $item->description }}</td>
                                         <td>
                                             <button wire:click="historyFormExit({{$item->id}})" class="btn btn-outline-success btn-sm">ویرایش <i class="fa fa-edit"></i></button>
-                                            <button onclick="deleteFormContainer({{$item->id}})" class="btn btn-outline-danger btn-sm">حذف <i class="fa fa-trash"></i></button>
+                                            <button onclick="deleteHistory({{$item->id}})" class="btn btn-outline-danger btn-sm">حذف <i class="fa fa-trash"></i></button>
                                         </td>
 
                                     </tr>
@@ -219,7 +219,7 @@
                                                     <button wire:click="historyFormExit({{$item->id}})" class="btn btn-outline-success btn-sm">ویرایش <i class="fa fa-edit"></i></button>
                                                 @endif
 
-                                                <button onclick="deleteFormContainer({{$item->id}})" class="btn btn-outline-danger btn-sm">حذف <i class="fa fa-trash"></i></button>
+                                                <button onclick="deleteHistory({{$item->id}})" class="btn btn-outline-danger btn-sm">حذف <i class="fa fa-trash"></i></button>
                                             </td>
 
                                         </tr>
@@ -348,6 +348,22 @@
             }).then((result) => {
                 if (result.value) {
                 @this.call('deleteFormContainer', id)
+                }
+            })
+        }
+        function deleteHistory(id) {
+            Swal.fire({
+                title: 'حذف فرم!',
+                text: 'آیا از حذف فرم اطمینان دارید؟',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'خیر',
+                confirmButtonText: 'بله'
+            }).then((result) => {
+                if (result.value) {
+                @this.call('deleteHistory', id)
                 }
             })
         }
