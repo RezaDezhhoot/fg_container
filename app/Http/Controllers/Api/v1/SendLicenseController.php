@@ -69,7 +69,7 @@ class SendLicenseController extends Controller
                 DB::commit();
                 return \response([
                     'data' => [
-                        'licenses' => Crypt::encryptString($codes)
+                        'licenses' => base64_encode($codes)
                     ],'status' => 'success'
                 ],200);
             } catch (\Exception $e) {
@@ -101,7 +101,7 @@ class SendLicenseController extends Controller
     {
         $salt = '12$#dAe)O@c$5*2Cn#g/sV^55!wX';
         try {
-            $decrypt = explode('-',Crypt::decryptString($code));
+            $decrypt = explode('-',base64_decode($code));
             $this->order_id = $decrypt[3];
             if (
                 !\App\Models\Request::where('code',$code)->exists() &&

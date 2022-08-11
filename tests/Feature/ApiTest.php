@@ -25,7 +25,7 @@ class ApiTest extends TestCase
         $response = $this->post('/api/v1/data',[
             'phone' => '09336332901',
             'count' => 1,
-            'code' =>Crypt::encryptString($code),
+            'code' => base64_encode($code),
             'exit_price' => '1000',
             'product_title' => 'test'
         ]);
@@ -47,7 +47,7 @@ class ApiTest extends TestCase
             ->post('http://127.0.0.1:8000/api/v1/data',[
                 'phone' => '09336332901',
                 'count' => 1,
-                'code' =>Crypt::encryptString($code),
+                'code' => base64_encode($code),
                 'exit_price' => '1000',
                 'product_title' => 'test'
             ]);
