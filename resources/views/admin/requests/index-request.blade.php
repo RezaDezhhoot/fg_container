@@ -23,8 +23,9 @@
                         <tbody>
                         @forelse($requests as $item)
                             <tr>
-                                <td>{{ $loop->phone }}</td>
-                                <td>{{ $item->code }}</td>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->phone }}</td>
+                                <td>{{ str($item->code)->limit(40) }}</td>
                                 <td>{{ $item->ip }}</td>
                                 <td>{{ $item->status }}</td>
                                 <td>{{ $item->http_refrer }}</td>

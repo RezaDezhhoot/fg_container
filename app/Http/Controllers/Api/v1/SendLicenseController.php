@@ -19,19 +19,19 @@ use JetBrains\PhpStorm\ArrayShape;
 class SendLicenseController extends Controller
 {
     private ?SendLicenseRequest $sendLicenseRequest;
-    private ?int $product_id , $order_id;
+    private ?int $product_id = 0 , $order_id = 0;
 
     public function __invoke(SendLicenseRequest $request): Response|Application|ResponseFactory
     {
         $this->sendLicenseRequest = $request;
-
-        if ($this->rateLimiter(request_ip: $request->ip()))
-            return response([
-                'data' => [
-                    'message' => 'زیادی تلاش کردی لطفا پس از مدتی دوباره سعی کنید.'
-                ],
-                'status' => 'error'
-            ],429);
+        if (app()->environment('production'))
+            if ($this->rateLimiter(request_ip: $request->ip()))
+                return response([
+                    'data' => [
+                        'message' => 'زیادی تلاش کردی لطفا پس از مدتی دوباره سعی کنید.'
+                    ],
+                    'status' => 'error'
+                ],429);
 
         $ValidCode = $this->ValidCode($request['code']);
         if ($ValidCode['status'] == 200) {
@@ -113,6 +113,7 @@ class SendLicenseController extends Controller
                     if (Container::where('product_id',$decrypt[1])->exists()) {
                         if (Container::isNotUsed($decrypt[1])->take($this->sendLicenseRequest['count'])->count() >= $this->sendLicenseRequest['count']) {
                             $this->product_id = $decrypt[1];
+                            $this->order_id = $decrypt[3];
                             return ['status' => 200 ,'message' => 'درخواست معتبر'];
                         } else {
                             $data = ['status'=>404,'message'=>'موچودی به پایان رسیده است'];
@@ -120,22 +121,20 @@ class SendLicenseController extends Controller
                             return $data;
                         }
                     } else {
-                        $data = ['status'=>404,'message'=>'محصولی یافت نشد'];
+                        $data=  ['status'=>404,'message'=>'product not found2'];
                         $this->insertRequest($data);
                         return $data;
                     }
                 } else {
-                    $data = ['status'=>404,'message'=>'شناسه محصول الزامی می باشد'];
+                    $data = ['status'=>404,'message'=>'product key required'];
                     $this->insertRequest($data);
                     return $data;
                 }
             } else {
-                $data=  ['status'=>404,'message'=>'محصولی یافت نشد'];
-                $this->insertRequest($data);
-                return $data;
+                return ['status'=>404,'message'=>'product not found'];
             }
         } catch (\Exception $e) {
-            return ['status'=>500,'message' =>'error'];
+            return ['status'=>500,'message' =>$e->getMessage()];
         }
     }
 
@@ -148,7 +147,7 @@ class SendLicenseController extends Controller
             'ip' => $this->sendLicenseRequest->ip(),
             'status' => $data['status'] ?? '',
             'sms' => $data['message'] ?? '',
-            'http_referer' => $this->sendLicenseRequest->headers->get('referer'),
+            'http_referer' => $this->sendLicenseRequest->headers->get('referer') ?? '1',
         ]);
     }
 
