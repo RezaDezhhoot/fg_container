@@ -62,9 +62,9 @@ class Dashboard extends BaseComponent
     public function getData()
     {
         $this->box = [
-            'all'=> Container::count(),
-            'used'=> Container::isNotUsed()->count(),
-            'not_used'=> Container::isUsed()->count(),
+            'all'=> Container::withTrashed()->count(),
+            'used'=> Container::isUsed()->count(),
+            'not_used'=> Container::isNotUsed()->count(),
             'deleted'=> Container::onlyTrashed()->count(),
         ];
     }
