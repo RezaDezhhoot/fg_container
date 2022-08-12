@@ -57,7 +57,7 @@ class SendLicenseController extends Controller
                     'product_id' => $this->product_id,
                 ]);
 
-                $codes = implode("-",array_value_recursive('license',$codes->toArray()));
+                $codes = implode(",",array_value_recursive('license',$codes->toArray()));
                 $licenses->update([
                     'status' => LicenseEnum::IS_USED,
                     'form_exit_id' => $history->id
