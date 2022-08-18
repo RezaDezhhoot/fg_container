@@ -39,7 +39,7 @@ class ApiTest extends TestCase
      */
     public function guzzle_http()
     {
-        $pID= 74984;
+        $pID= 3969;
         $salt = '12$#dAe)O@c$5*2Cn#g/sV^55!wX';
         $md5 = md5($salt.$pID.$salt);
         $code = "$md5-$pID-1-35";
@@ -49,7 +49,8 @@ class ApiTest extends TestCase
                 'count' => 1,
                 'code' => base64_encode($code),
                 'exit_price' => '1000',
-                'product_title' => 'test'
+                'product_title' => 'test',
+                'base_id' => 1
             ]);
 
         $this->assertEquals(200,$response->status());

@@ -25,7 +25,7 @@ class SendLicenseController extends Controller
     {
         $this->sendLicenseRequest = $request;
         if (app()->environment('production'))
-            if ($this->rateLimiter(request_ip: $request->ip()))
+            if ($this->rateLimiter(phone:$request['phone']))
                 return response([
                     'data' => [
                         'message' => 'زیادی تلاش کردی لطفا پس از مدتی دوباره سعی کنید.'
@@ -152,10 +152,10 @@ class SendLicenseController extends Controller
         ]);
     }
 
-    private function rateLimiter($request_ip): bool
+    private function rateLimiter($phone): bool
     {
-        $rateKey = 'verify-attempt:' . $request_ip;
-        if (RateLimiter::tooManyAttempts($rateKey, 8)) {
+        $rateKey = 'verify-attempt:' . $phone;
+        if (RateLimiter::tooManyAttempts($rateKey, 10)) {
             return true;
         }
         RateLimiter::hit($rateKey, 3 * 60 * 60);
