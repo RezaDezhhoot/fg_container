@@ -23,7 +23,7 @@ class SendLicenseRequest extends FormRequest
      * @return array<string, mixed>
      */
 
-    #[ArrayShape(['phone' => "string", 'code' => "string", 'product_title' => "string", 'order_id' => "string", 'count' => "string", 'exit_price' => "string"])]
+    #[ArrayShape(['phone' => "string", 'code' => "string", 'product_title' => "string", 'count' => "string", 'exit_price' => "string", 'base_id' => "string"])]
     public function rules(): array
     {
         return [
@@ -32,6 +32,7 @@ class SendLicenseRequest extends FormRequest
             'product_title' => 'required|string|max:250',
             'count' => 'required|integer|between:1,100',
             'exit_price' =>'required|between:1,999999999999.9999999',
+            'base_id' => 'required|integer'
         ];
     }
     /**
@@ -39,7 +40,7 @@ class SendLicenseRequest extends FormRequest
      *
      * @return array
      */
-    #[ArrayShape(['phone' => "string", 'code' => "string", 'order_id' => "string", 'count' => "string", 'exit_price' => "string", 'product_title' => "string"])]
+    #[ArrayShape(['phone' => "string", 'code' => "string", 'count' => "string", 'exit_price' => "string", 'product_title' => "string", 'base_id' => "string"])]
     public function attributes(): array
     {
         return [
@@ -47,7 +48,8 @@ class SendLicenseRequest extends FormRequest
             'code' => 'کد احراز هویت',
             'count' => 'تعداد',
             'exit_price' => 'قیمت فروش',
-            'product_title' => 'عنوان محصول'
+            'product_title' => 'عنوان محصول',
+            'base_id' => 'کد سفارش'
         ];
     }
 }

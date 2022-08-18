@@ -50,7 +50,7 @@ class SendLicenseController extends Controller
                     'count' => $request['count'],
                     'enter_price' => $enter_price,
                     'exit_price' => $request['exit_price'],
-                    'order_id' => $this->order_id,
+                    'order_id' => $request['base_id'],
                     'user_id' => null,
                     'description' => 'درخواست از طرف api',
                     'product_title' => $request['product_title'],
@@ -102,10 +102,8 @@ class SendLicenseController extends Controller
         $salt = '12$#dAe)O@c$5*2Cn#g/sV^55!wX';
         try {
             $decrypt = explode('-',base64_decode($code));
-            $this->order_id = $decrypt[3];
             if (
-                !\App\Models\Request::where('code',$code)->exists() &&
-                !\App\Models\Request::where('order_id',$decrypt[3])->exists()
+                !\App\Models\Request::where('code',$code)->exists()
             ) {
                 if (
                     $decrypt[1] && is_numeric($decrypt[1]) && sizeof($decrypt) == 4 && $decrypt[0] == md5($salt.$decrypt[1].$salt)
@@ -113,7 +111,6 @@ class SendLicenseController extends Controller
                     if (Container::where('product_id',$decrypt[1])->exists()) {
                         if (Container::isNotUsed($decrypt[1])->take($this->sendLicenseRequest['count'])->count() >= $this->sendLicenseRequest['count']) {
                             $this->product_id = $decrypt[1];
-                            $this->order_id = $decrypt[3];
                             return ['status' => 200 ,'message' => 'درخواست معتبر'];
                         } else {
                             $data = ['status'=>404,'message'=>'موچودی به پایان رسیده است'];
@@ -143,7 +140,7 @@ class SendLicenseController extends Controller
         \App\Models\Request::create([
             'code' => $this->sendLicenseRequest['code'],
             'phone' => $this->sendLicenseRequest['phone'],
-            'order_id' => $this->order_id,
+            'order_id' => $this->sendLicenseRequest['base_id'],
             'ip' => $this->sendLicenseRequest->ip(),
             'status' => $data['status'] ?? '',
             'sms' => $data['message'] ?? '',
