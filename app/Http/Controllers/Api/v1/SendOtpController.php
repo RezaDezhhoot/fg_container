@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SendOtpRequest;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Controllers\Sends\Facades\SendMessages;
 
