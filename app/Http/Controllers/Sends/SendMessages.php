@@ -16,17 +16,15 @@ class SendMessages
     private $lineNumber = '3000505';
 
 
-    public function sendCode($code , $user)
+    public function sendCode($code , $phone)
     {
-//        if (app()->environment('local')) {
-//            return;
-//        }
+      
 
         $client = new Client();
         $query = ['apikey' => $this->apiKey,
             'pid' => 'xwxal1leox0uq1a',
             'fnum' => $this->lineNumber,
-            'tnum' => $user->phone,
+            'tnum' => $phone,
             'p1' => 'verification-code',
             'v1' => $code];
 

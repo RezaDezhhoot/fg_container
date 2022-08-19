@@ -77,7 +77,7 @@ class Auth extends Component
             $user->otp = $rand;
             $this->passwordLabel = 'رمز ارسال شده را وارد نماید';
             $user->save();
-            SendMessages::sendCode($rand,$user);
+            SendMessages::sendCode($rand,$user->phone);
             $this->sent = true;
         } else
             return $this->addError('phone','این شماره همراه یافت نشد.');
