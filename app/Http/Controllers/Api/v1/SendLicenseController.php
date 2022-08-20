@@ -113,12 +113,12 @@ class SendLicenseController extends Controller
                             $this->product_id = $decrypt[1];
                             return ['status' => 200 ,'message' => 'درخواست معتبر'];
                         } else {
-                            $data = ['status'=>404,'message'=>'موچودی به پایان رسیده است'];
+                            $data = ['status'=>404,'message'=>'موجودی به پایان رسیده است'];
                             $this->insertRequest($data);
                             return $data;
                         }
                     } else {
-                        $data=  ['status'=>404,'message'=>'product not found2'];
+                        $data=  ['status'=>404,'message'=>'product not found'];
                         $this->insertRequest($data);
                         return $data;
                     }
@@ -128,10 +128,14 @@ class SendLicenseController extends Controller
                     return $data;
                 }
             } else {
-                return ['status'=>404,'message'=>'product not found'];
+                $data = ['status'=>404,'message'=>'invalid code'];
+                $this->insertRequest($data);
+                return $data;
             }
         } catch (\Exception $e) {
-            return ['status'=>500,'message' =>$e->getMessage()];
+            $data = ['status'=>500,'message' =>$e->getMessage()];
+            $this->insertRequest($data);
+            return $data;
         }
     }
 
