@@ -26,14 +26,14 @@ class Request extends Model
     public function createdAt(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => Jalalian::forge($value)->format('%A, %d %B %Y')
+            get: fn($value) => Jalalian::forge($value)->format('%A, %d %B %Y H:i:s')
         );
     }
 
     public function updatedAt(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => Jalalian::forge($value)->format('%A, %d %B %Y')
+            get: fn($value) => Jalalian::forge($value)->format('%A, %d %B %Y H:i:s')
         );
     }
 }
