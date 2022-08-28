@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\v1\SendLicenseController;
 use App\Http\Controllers\Api\v1\SendOtpController;
+use App\Http\Controllers\Api\v1\SendReportsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,3 +20,4 @@ use Illuminate\Support\Facades\Route;
 Route::post('/v1/data', SendLicenseController::class);
 Route::post('/v1/custom_data', [SendLicenseController::class,'sendByUserAndPass']);
 Route::post('/v1/otp', SendOtpController::class);
+Route::get('/v1/products', SendReportsController::class);
