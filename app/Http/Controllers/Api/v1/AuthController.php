@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Enums\PanelEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthRequest;
+use App\Http\Resources\v1\AuthResource;
 use App\Models\Panel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 
@@ -25,12 +28,12 @@ class AuthController extends Controller
 
         $panel = Panel::query()->where('username',$request->get('username'))->firstOrFail();
 
-        if (Hash::check($request->get('password'),$panel->password)) {
-            return response([
-                'data' => [
-                    'message' => 'ok'
-                ]
-            ],200);
+        if (Hash::check($request->get('password'),$panel->password) && $panel->status == PanelEnum::ACTIVE) {
+            $panel->token = Crypt::encrypt(config('site.salt').microtime().$panel->username.$panel->phone);
+            $panel->save();
+            return response()->json(
+                ['data' => AuthResource::make($panel)]
+            );
         }
 
         return response([

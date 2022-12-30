@@ -28,6 +28,10 @@ class AuthTest extends TestCase
         $this->postJson(action([AuthController::class]),[
            'username' => $this->panel->username,
            'password' => 1234
+        ])->assertJsonStructure([
+            'data' => [
+                'id','name','username','token'
+            ]
         ])->assertStatus(200);
     }
 }
