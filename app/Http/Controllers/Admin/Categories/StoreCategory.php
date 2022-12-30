@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Categories;
 
 use App\Http\Controllers\BaseComponent;
 use App\Models\Category;
+use App\Models\Currency;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -24,7 +25,7 @@ class StoreCategory extends BaseComponent
          } elseif ($this->mode == self::CREATE_MODE) $this->header = 'واحد جدید';
         else abort(404);
 
-        $this->data['currency'] = Category::all()->pluck('title','id');
+        $this->data['currency'] = Currency::all()->pluck('title','id');
     }
 
     public function deleteItem()
@@ -59,6 +60,7 @@ class StoreCategory extends BaseComponent
             $category->title = $this->title;
             $category->price = $this->price;
             $category->currency_id  = $this->currency;
+            $category->save();
             $this->emitNotify('اطلاعات با موفقیت ذخیره شد');
             DB::commit();
         } catch (\Exception $e) {
