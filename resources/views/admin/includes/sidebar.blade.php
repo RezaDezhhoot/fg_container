@@ -44,7 +44,7 @@
 											</svg>
                                         <!--end::Svg Icon-->
 										</span>
-                        <span class="menu-text">داشبورد</span>
+                        <span class="menu-text ">داشبورد</span>
                     </a>
                 </li>
                 <x-admin.menu-item href="{{route('profile')}}" icon="far fa-user" :active="request()->routeIs('profile')" label="پروفایل" />
@@ -52,7 +52,12 @@
                     <x-admin.menu-item href="{{route('container')}}" icon="far fa-hdd" :active="request()->routeIs('container')" label="مخزن لایسنس ها" />
                 @endcan
                 {{-- <x-admin.menu-item href="{{route('profile')}}" icon="flaticon2-user" :active="request()->routeIs('admin.profile')" label="پروفایل" /> --}}
-                @can('show_api_requests')
+                <x-admin.menu-item href="{{route('currencies')}}" icon="fas fa-pound-sign" :active="request()->routeIs(['currencies','currency'])" label="واحد های پول" />
+                <x-admin.menu-item href="{{route('categories')}}" icon="fa fa-list" :active="request()->routeIs(['categories','category'])" label="دسته بندی ها" />
+                <x-admin.menu-item href="{{route('carts')}}" icon="fab fa-cc-amex" :active="request()->routeIs(['carts','cart'])" label="مخزن کارت ها" />
+                <x-admin.menu-item href="{{route('panels')}}" icon="fa fa-user" :active="request()->routeIs(['panels','panel'])" label="پنل ها" />
+
+            @can('show_api_requests')
                     <x-admin.menu-item href="{{route('requests')}}" icon="fa fa-asterisk" :active="request()->routeIs('requests')" label="درخواست های api" />
                 @endcan
                 @can('show_roles')

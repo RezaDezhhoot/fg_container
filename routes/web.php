@@ -34,7 +34,26 @@ Route::middleware(['auth'])->prefix('container')->group(function() {
 
     Route::get('/container',Container::class)->name('container');
     Route::get('/profile', Profile::class)->name('profile');
+
+    Route::get('/categories',\App\Http\Controllers\Admin\Categories\IndexCategory::class)->name('categories');
+    Route::get('/categories/{action}/{id?}',\App\Http\Controllers\Admin\Categories\StoreCategory::class)->name('category');
+
+    Route::get('/carts',\App\Http\Controllers\Admin\Carts\IndexCart::class)->name('carts');
+    Route::get('/carts/{action}/{id?}',\App\Http\Controllers\Admin\Carts\StoreCart::class)->name('cart');
+
+    Route::get('/panels',\App\Http\Controllers\Admin\Panels\IndexPanel::class)->name('panels');
+    Route::get('/panels/{action}/{id?}',\App\Http\Controllers\Admin\Panels\StorePanel::class)->name('panel');
+
+    Route::get('/currencies',\App\Http\Controllers\Admin\Currencies\IndexCurrency::class)->name('currencies');
+    Route::get('/currencies/{action}/{id?}',\App\Http\Controllers\Admin\Currencies\StoreCurrency::class)->name('currency');
+
+
 });
+
+Route::group(['prefix' => 'file-manager', 'middleware' => ['web', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
+
 
 Route::middleware('guest')->get('auth',App\Http\Controllers\Site\Auth\Auth::class)->name('auth');
 

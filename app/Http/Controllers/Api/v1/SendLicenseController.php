@@ -102,7 +102,7 @@ class SendLicenseController extends Controller
     #[ArrayShape(['status' => "int", 'message' => "string"])]
     private function ValidCode($code): array
     {
-        $salt = '12$#dAe)O@c$5*2Cn#g/sV^55!wX';
+        $salt = config('site.salt');
         try {
             $decrypt = explode('-', base64_decode($code));
             if (

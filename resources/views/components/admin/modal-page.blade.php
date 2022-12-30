@@ -1,4 +1,4 @@
-@props(['title','id'])
+@props(['title','id','btn' => true])
 <div  class="modal fade" data-focus="false"  id="{{$id}}Modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="Modal" aria-hidden="true" wire:ignore.self>
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -23,10 +23,12 @@
                 <div>
                     <p wire:loading class="text-primary">در حال پردازش ...</p>
                 </div>
+                @if($btn)
                 <div>
                     <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">انصراف</button>
                     <button id="send" wire:loading.attr="disabled"  type="button" class="btn btn-success" {{ $attributes }}>ثبت</button>
                 </div>
+                @endif
             </div>
         </div>
     </div>

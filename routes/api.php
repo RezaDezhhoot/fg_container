@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/v1/data', SendLicenseController::class);
+Route::post('/v1/cart', \App\Http\Controllers\Api\v1\CartController::class);
 Route::post('/v1/custom_data', [SendLicenseController::class,'sendByUserAndPass']);
 Route::post('/v1/otp', SendOtpController::class);
 Route::get('/v1/products', SendReportsController::class);
