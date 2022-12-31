@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property mixed $image
  * @property mixed $expire
  * @property mixed $category_id
+ * @property mixed $type
  */
 class Cart extends Model
 {
@@ -47,4 +48,10 @@ class Cart extends Model
         return $q->where('status',CartEnum::READY);
     }
 
+    public function typeLabel():Attribute
+    {
+        return Attribute::make(
+            get: fn() => CartEnum::getType()[$this->type]
+        );
+    }
 }

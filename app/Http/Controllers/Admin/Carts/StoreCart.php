@@ -14,7 +14,7 @@ class StoreCart extends BaseComponent
 {
     public $cart , $header;
 
-    public $cart_number , $cart_cvv2 , $image , $expire , $category , $status;
+    public $cart_number , $cart_cvv2 , $image , $expire , $category , $status , $type;
 
     public function mount($action , $id =null)
     {
@@ -28,12 +28,14 @@ class StoreCart extends BaseComponent
             $this->image = $this->cart->image;
             $this->expire = $this->cart->expire;
             $this->category = $this->cart->category_id;
+            $this->type = $this->cart->type;
             $this->status = $this->cart->status;
         } elseif ($this->mode == self::CREATE_MODE) {
             $this->header = 'کارت جدید';
         } else abort(404);
 
         $this->data['status'] = CartEnum::getStatus();
+        $this->data['type'] = CartEnum::getType();
         $this->data['category'] = Category::all()->pluck('title','id');
 
     }
@@ -62,14 +64,16 @@ class StoreCart extends BaseComponent
             'image' => ['required','string','max:1000'],
             'expire' => ['required','string','max:20'],
             'category' => ['required','exists:categories,id'],
-            'status' => ['required','in:'.implode(',',array_keys($this->data['status']))]
+            'status' => ['required','in:'.implode(',',array_keys($this->data['status']))],
+            'type' => ['required','in:'.implode(',',array_keys($this->data['type']))]
         ],[],[
             'cart_number' => 'شماره کارت',
             'cart_cvv2' => 'cvv2',
             'image' => 'تصویر',
             'expire' => 'تاریخ انقضا',
             'category' => 'دسته بندی',
-            'status' => 'وضعیت'
+            'status' => 'وضعیت',
+            'type' => 'نوع',
         ]);
 
         try {
@@ -80,6 +84,7 @@ class StoreCart extends BaseComponent
             $cart->expire = $this->expire;
             $cart->category_id = $this->category;
             $cart->status = $this->status;
+            $cart->type = $this->type;
             $cart->save();
             $this->emitNotify('اطلاعات با موفقیت ذخیره شد');
             DB::commit();
@@ -92,7 +97,7 @@ class StoreCart extends BaseComponent
 
     public function resetData()
     {
-        $this->reset(['cart_number','cart_cvv2','image','expire','category','status']);
+        $this->reset(['cart_number','cart_cvv2','image','expire','category','status','type']);
     }
 
     public function render()

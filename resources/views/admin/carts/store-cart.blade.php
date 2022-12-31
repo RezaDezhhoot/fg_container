@@ -12,6 +12,7 @@
             <x-admin.forms.lfm-standalone id="image" label="تصویر*" :file="$image" type="image" required="true" wire:model="image"/>
             <x-admin.forms.input type="text" id="expire" label="تاریخ انقضا*" wire:model.defer="expire"/>
             <x-admin.forms.dropdown :data="$data['category']" id="category" label="دسته بندی*" wire:model.defer="category"/>
+            <x-admin.forms.dropdown :data="$data['type']" id="type" label="نوع *" wire:model.defer="type"/>
             <x-admin.forms.dropdown :data="$data['status']" id="status" label="وضعیت *" wire:model.defer="status"/>
         </div>
     </div>

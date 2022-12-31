@@ -10,6 +10,16 @@ final class CartEnum extends Enum
     const USED = 'used';
     const READY = 'ready';
 
+    const EMPTY = 'empty' , CHARGE = 'charge';
+
+    public static function getType()
+    {
+        return [
+            self::CHARGE => 'شارژ',
+            self::EMPTY => 'خالی',
+        ];
+    }
+
     public static function getStatus()
     {
         return [

@@ -15,6 +15,7 @@
                             <th>cvv2</th>
                             <th>تاریخ انقضا</th>
                             <th>وضعیت</th>
+                            <th>نوع</th>
                             <th>دسته بندی</th>
                             <th>واحد پول</th>
                             <th> قیمت  </th>
@@ -29,6 +30,7 @@
                                 <td>{{ $item->cart_cvv2 }}</td>
                                 <td>{{ $item->expire }}</td>
                                 <td>{{ $item->status_label }}</td>
+                                <td>{{ $item->type_label }}</td>
                                 <td>{{ $item->category->title ?? '-' }}</td>
                                 <td>{{ $item->category->currency->title ?? 'تومان' }}</td>
                                 <td>{{ number_format($item->category->price) }}</td>
