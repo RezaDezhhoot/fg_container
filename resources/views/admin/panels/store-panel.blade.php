@@ -54,7 +54,7 @@
     <x-admin.modal-page id="carts" title="افزودن کارت چدید" wire:click="" :btn="false">
         <x-admin.forms.input type="text" id="search" label="جستوجو شماره کارت" wire:input="searchCart" wire:model.defer="search" />
         @foreach($searches as $item)
-            <button class="btn btn-sm btn-primary" wire:click="saveCart({{$item['cart_number']}})">
+            <button class="btn btn-sm btn-primary" wire:click="saveCart('{{$item['cart_number']}}')">
                 {{$item['cart_number']}}
             </button>
         @endforeach
