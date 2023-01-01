@@ -31,6 +31,7 @@ class AuthController extends Controller
         if (Hash::check($request->get('password'),$panel->password) && $panel->status == PanelEnum::ACTIVE) {
             $panel->token = Crypt::encrypt(config('site.salt').microtime().$panel->username.$panel->phone);
             $panel->save();
+            RateLimiter::clear($rateKey);
             return response()->json(
                 ['data' => AuthResource::make($panel)]
             );
