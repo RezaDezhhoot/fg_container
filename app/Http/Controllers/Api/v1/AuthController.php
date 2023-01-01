@@ -16,8 +16,9 @@ class AuthController extends Controller
 {
     public function __invoke(AuthRequest $request)
     {
+        $rateKey = false;
         if (app()->environment('production')) {
-            if ($this->rateLimiter(username: $request['username']))
+            if ($rateKey = $this->rateLimiter(username: $request['username']))
                 return response([
                     'data' => [
                         'message' => 'زیادی تلاش کردی لطفا پس از مدتی دوباره سعی کنید.'
@@ -48,7 +49,7 @@ class AuthController extends Controller
     {
         $rateKey = 'verify-attempt-auth:' . $username;
         if (RateLimiter::tooManyAttempts($rateKey, 35)) {
-            return true;
+            return $rateKey;
         }
         RateLimiter::hit($rateKey, 3 * 60 * 60);
         return false;
