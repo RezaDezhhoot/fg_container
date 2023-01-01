@@ -47,7 +47,7 @@ class AuthController extends Controller
     private function rateLimiter($username): bool
     {
         $rateKey = 'verify-attempt-auth:' . $username;
-        if (RateLimiter::tooManyAttempts($rateKey, 30)) {
+        if (RateLimiter::tooManyAttempts($rateKey, 35)) {
             return true;
         }
         RateLimiter::hit($rateKey, 3 * 60 * 60);
