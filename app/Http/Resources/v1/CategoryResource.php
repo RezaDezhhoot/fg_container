@@ -19,7 +19,8 @@ class CategoryResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'price' => $this->price,
-            'currency' => $this->currency->symbol ?? 't',
+            'amount' => $this->amount,
+            'currency' => $this->currency->symbol ?? 'تومان',
             'image' => asset($this->image),
             'type' => $this->type
         ];
