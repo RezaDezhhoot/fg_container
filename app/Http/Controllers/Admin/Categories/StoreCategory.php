@@ -7,11 +7,12 @@ use App\Models\Category;
 use App\Models\Currency;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class StoreCategory extends BaseComponent
 {
     public $category;
-    public $title , $currency , $price , $header;
+    public $title , $currency , $price , $header , $is_base = false , $image , $description;
 
     public function mount($action , $id = null)
     {
@@ -21,6 +22,9 @@ class StoreCategory extends BaseComponent
             $this->category = Category::query()->findOrFail($id);
             $this->title = $this->category->title;
             $this->price = $this->category->price;
+            $this->is_base = $this->category->is_base;
+            $this->image = $this->category->image;
+            $this->description = $this->category->description;
             $this->currency = $this->category->currency_id;
          } elseif ($this->mode == self::CREATE_MODE) $this->header = 'واحد جدید';
         else abort(404);
@@ -49,17 +53,26 @@ class StoreCategory extends BaseComponent
         $this->validate([
             'title' => ['required','string','max:150'],
             'price' => ['required','between:0,999999999999.999'],
-            'currency' => ['nullable','exists:currencies,id']
+            'currency' => ['nullable','exists:currencies,id'],
+            'is_base' => ['required','boolean'],
+            'description' => [Rule::requiredIf($this->is_base == 1),'max:80'],
+            'image' => [Rule::requiredIf($this->is_base == 1),'max:1000'],
         ],[],[
             'title' => 'عنوان',
             'price' => 'قیمت',
-            'currency' => 'واحد پول'
+            'currency' => 'واحد پول',
+            'is_base' => 'دسته بندی پایه',
+            'description' => 'توضیحات',
+            'image' => 'تصویر'
         ]);
         try {
             DB::beginTransaction();
             $category->title = $this->title;
             $category->price = $this->price;
             $category->currency_id  = $this->currency;
+            $category->is_base  = $this->is_base;
+            $category->image  = $this->image;
+            $category->description  = $this->description;
             $category->save();
             $this->emitNotify('اطلاعات با موفقیت ذخیره شد');
             DB::commit();
@@ -72,7 +85,7 @@ class StoreCategory extends BaseComponent
 
     public function resetData()
     {
-        $this->reset(['title','currency','price']);
+        $this->reset(['title','currency','price','is_base','image','description']);
     }
 
     public function render()

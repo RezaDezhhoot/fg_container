@@ -14,12 +14,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property mixed $price
  * @property mixed $currency_id
  * @property mixed $title
+ * @property bool|mixed $is_base
+ * @property mixed $image
+ * @property mixed $description
  */
 class Category extends Model
 {
     use HasFactory , Searchable;
 
     protected array $searchAbleColumns = ['title'];
+
+    protected $casts = [
+        'is_base' => 'boolean'
+    ];
 
     protected $guarded = ['id'];
 
@@ -38,6 +45,13 @@ class Category extends Model
     {
         return Attribute::make(
             get: fn() => is_null($this->currency) ? $this->price : $this->price * $this->currency->amount
+        );
+    }
+
+    public function level(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->is_base ? 'پایه' : 'عادی'
         );
     }
 }

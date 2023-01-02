@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\CategoryEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PanelToken extends FormRequest
@@ -25,7 +26,8 @@ class PanelToken extends FormRequest
     {
         $rules = [
             'token' => ['required','exists:panels,token'],
-            'count' => ['nullable','integer','between:1,10000000']
+            'count' => ['nullable','integer','between:1,10000000'],
+            'type' => ['nullable','in:'.implode(',',array_keys(CategoryEnum::getType()))]
         ];
 //        if (request()->getMethod() == 'PUT') {
 //            return  [];
