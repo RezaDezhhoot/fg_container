@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Categories;
 
+use App\Enums\CategoryEnum;
 use App\Http\Controllers\BaseComponent;
 use App\Models\Category;
 use App\Models\Currency;
@@ -11,7 +12,7 @@ use Illuminate\Validation\Rule;
 
 class StoreCategory extends BaseComponent
 {
-    public $category;
+    public $category , $type;
     public $title , $currency , $price , $header , $is_base = false , $image , $description;
 
     public function mount($action , $id = null)
@@ -26,10 +27,12 @@ class StoreCategory extends BaseComponent
             $this->image = $this->category->image;
             $this->description = $this->category->description;
             $this->currency = $this->category->currency_id;
+            $this->type = $this->category->type;
          } elseif ($this->mode == self::CREATE_MODE) $this->header = 'واحد جدید';
         else abort(404);
 
         $this->data['currency'] = Currency::all()->pluck('title','id');
+        $this->data['type'] = CategoryEnum::getType();
     }
 
     public function deleteItem()
@@ -57,13 +60,15 @@ class StoreCategory extends BaseComponent
             'is_base' => ['required','boolean'],
             'description' => [Rule::requiredIf($this->is_base == 1),'max:80'],
             'image' => [Rule::requiredIf($this->is_base == 1),'max:1000'],
+            'type' => ['required']
         ],[],[
             'title' => 'عنوان',
             'price' => 'قیمت',
             'currency' => 'واحد پول',
             'is_base' => 'دسته بندی پایه',
             'description' => 'توضیحات',
-            'image' => 'تصویر'
+            'image' => 'تصویر',
+            'type' => 'نوغ'
         ]);
         try {
             DB::beginTransaction();
@@ -73,6 +78,7 @@ class StoreCategory extends BaseComponent
             $category->is_base  = $this->is_base;
             $category->image  = $this->image;
             $category->description  = $this->description;
+            $category->type  = $this->type;
             $category->save();
             $this->emitNotify('اطلاعات با موفقیت ذخیره شد');
             DB::commit();

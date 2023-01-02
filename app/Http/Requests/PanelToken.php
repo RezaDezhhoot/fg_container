@@ -27,7 +27,8 @@ class PanelToken extends FormRequest
         $rules = [
             'token' => ['required','exists:panels,token'],
             'count' => ['nullable','integer','between:1,10000000'],
-            'type' => ['nullable','in:'.implode(',',array_keys(CategoryEnum::getType()))]
+            'type' => ['nullable','in:'.implode(',',array_keys(CategoryEnum::getType()))],
+            'base' => ['nullable']
         ];
 //        if (request()->getMethod() == 'PUT') {
 //            return  [];

@@ -15,6 +15,8 @@ class CategoryController extends Controller
     {
         $categories = Category::with('currency')->when($panelToken->filled('type'),function ($q) use ($panelToken){
             return $q->where('type',$panelToken->get('type'));
+        })->when($panelToken->filled('base'),function ($q) use ($panelToken) {
+            return $q->where('is_base',1);
         })->cursor();
         return response()->json([
             'data' => CategoryResource::collection($categories)

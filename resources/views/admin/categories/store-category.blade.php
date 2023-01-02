@@ -13,6 +13,7 @@
             <x-admin.forms.checkbox label="دسته بندی پایه" id="{is_base" value="1" wire:model.defer="is_base"  />
             <x-admin.forms.lfm-standalone id="image" label="تصویر" :file="$image" type="image" required="true" wire:model="image"/>
             <x-admin.forms.input type="text" id="description" label="توضیحات کوتاه" wire:model.defer="description"/>
+            <x-admin.forms.dropdown :data="$data['type']" id="type" label="نوع *" wire:model.defer="type"/>
 
         </div>
     </div>
