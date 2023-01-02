@@ -19,7 +19,7 @@ class CategoryResource extends JsonResource
             'title' => $this->title,
             'price' => $this->price,
             'currency' => $this->currency->symbol ?? 't',
-            'image' => $this->image
+            'image' => asset($this->image)
         ];
     }
 }
