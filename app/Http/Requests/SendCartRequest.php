@@ -24,7 +24,6 @@ class SendCartRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required|string|exists:panels,username',
             'phone' => 'required|exists:panels,phone',
             'code' => 'required|string',
             'category_id' => 'required|exists:categories,id',

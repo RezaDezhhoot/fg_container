@@ -24,7 +24,7 @@ class CartController extends Controller
     {
         $this->sendCartRequest = $request;
         if (app()->environment('production'))
-            if ($this->rateLimiter(username: $request['username']))
+            if ($this->rateLimiter(phone: $request['phone']))
                 return response([
                     'data' => [
                         'message' => 'زیادی تلاش کردی لطفا پس از مدتی دوباره سعی کنید.'
@@ -98,9 +98,9 @@ class CartController extends Controller
         ]);
     }
 
-    private function rateLimiter($username): bool
+    private function rateLimiter($phone): bool
     {
-        $rateKey = 'verify-attempt-cart:' . $username;
+        $rateKey = 'verify-attempt-cart:' . $phone;
         if (RateLimiter::tooManyAttempts($rateKey, 10)) {
             return true;
         }
@@ -117,7 +117,7 @@ class CartController extends Controller
             })->ready()->take(1)->first();
             $cart->update([
                 'status' => CartEnum::USED,
-                'panel_id' => Panel::query()->where('username',$request->get('username'))->first()->id
+                'panel_id' => Panel::query()->where('phone',$request->get('phone'))->first()->id
             ]);
             DB::commit();
             return \response([
