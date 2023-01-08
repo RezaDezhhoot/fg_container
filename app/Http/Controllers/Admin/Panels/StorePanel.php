@@ -117,7 +117,7 @@ class StorePanel extends BaseComponent
     {
         $this->searches = Cart::query()
             ->latest()
-            ->ready()
+//            ->ready()
             ->where('cart_number','like','%'.$this->search.'%')
             ->whereNotIn('cart_number',array_column($this->carts,'cart_number'))
             ->take(5)
