@@ -22,7 +22,7 @@ class Cart extends Model
 {
     use HasFactory , Searchable;
 
-    protected $searchAbleColumns = ['cart_number','cvv2'];
+    protected $searchAbleColumns = ['cart_number','cart_cvv2'];
 
     protected $guarded = ['id'];
 
