@@ -32,6 +32,19 @@ class CartController extends Controller
                     'status' => 'error'
                 ], 429);
 
+        if (!$request->filled('category_id')) {
+            $cart = Cart::query()->firstOrFail($request->get('cart_id'));
+            $cart->update([
+                'is_charged' => true
+            ]);
+            return \response([
+                'data' => [
+                    'message' => 'ok'
+                ],
+                'status' => 'success'
+            ], 200);
+        }
+
         if (!\App\Models\Request::where('code', $request['code'])->exists() || app()->environment('local')) {
             $ValidCode = $this->ValidCode($request['code']);
             if ($ValidCode['status'] == 200) {
