@@ -22,7 +22,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->title }}</td>
                                 <td>{{ $item->currency->title ?? 'تومان' }}</td>
-                                <td>{{ number_format($item->price) }}</td>
+                                <td>{{ number_format($item->amount) }}</td>
                                 <td>
                                     <x-admin.edit-btn href="{{ route('category',['edit', $item->id]) }}" />
                                 </td>
