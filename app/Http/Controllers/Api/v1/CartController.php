@@ -23,14 +23,14 @@ class CartController extends Controller
     public function __invoke(SendCartRequest $request): Response|Application|ResponseFactory
     {
         $this->sendCartRequest = $request;
-        if (app()->environment('production'))
-            if ($this->rateLimiter(phone: $request['phone']))
-                return response([
-                    'data' => [
-                        'message' => 'زیادی تلاش کردی لطفا پس از مدتی دوباره سعی کنید.'
-                    ],
-                    'status' => 'error'
-                ], 429);
+//        if (app()->environment('production'))
+//            if ($this->rateLimiter(phone: $request['phone']))
+//                return response([
+//                    'data' => [
+//                        'message' => 'زیادی تلاش کردی لطفا پس از مدتی دوباره سعی کنید.'
+//                    ],
+//                    'status' => 'error'
+//                ], 429);
 
         if (!$request->filled('category_id')) {
             $cart = Cart::query()->firstOrFail($request->get('cart_id'));
