@@ -33,7 +33,7 @@ class CartController extends Controller
 //                ], 429);
 
         if (!$request->filled('category_id')) {
-            $cart = Cart::query()->firstOrFail($request->get('cart_id'));
+            $cart = Cart::query()->findOrFail($request->get('cart_id'));
             $cart->update([
                 'is_charged' => true
             ]);
