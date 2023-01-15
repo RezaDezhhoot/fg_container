@@ -17,7 +17,7 @@ class CartResource extends JsonResource
         return [
             'id' => $this->id,
             'cart_number' => $this->cart_number,
-            'category_name' => $this->category->title,
+            'category_name' => $this->category->cart_label ?? 'نامشخص',
             'cart_cvv2' => $this->cart_cvv2,
             'image' => $this->image,
             'expire' => $this->expire,

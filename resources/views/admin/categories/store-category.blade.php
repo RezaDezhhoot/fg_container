@@ -8,6 +8,7 @@
         <x-admin.forms.validation-errors/>
         <div class="card-body">
             <x-admin.forms.input type="text" id="title" label="عنوان*" wire:model.defer="title"/>
+            <x-admin.forms.input type="text" id="cart_label" label="نام روی کارت*" wire:model.defer="cart_label"/>
             <x-admin.forms.input type="text" id="price" label="قیمت*" wire:model.defer="price"/>
             <x-admin.forms.dropdown :data="$data['currency']" id="currency" label="واحد پول" wire:model.defer="currency"/>
             <x-admin.forms.checkbox label="دسته بندی پایه" id="{is_base" value="1" wire:model.defer="is_base"  />

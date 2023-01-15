@@ -13,7 +13,7 @@ use Illuminate\Validation\Rule;
 class StoreCategory extends BaseComponent
 {
     public $category , $type;
-    public $title , $currency , $price , $header , $is_base = false , $image , $description;
+    public $title , $currency , $price , $header , $is_base = false , $image , $description , $cart_label;
 
     public function mount($action , $id = null)
     {
@@ -28,6 +28,7 @@ class StoreCategory extends BaseComponent
             $this->description = $this->category->description;
             $this->currency = $this->category->currency_id;
             $this->type = $this->category->type;
+            $this->cart_label = $this->category->cart_label;
          } elseif ($this->mode == self::CREATE_MODE) $this->header = 'واحد جدید';
         else abort(404);
 
@@ -55,6 +56,7 @@ class StoreCategory extends BaseComponent
     {
         $this->validate([
             'title' => ['required','string','max:150'],
+            'cart_label' => ['required','string','max:150'],
             'price' => ['required','between:0,999999999999.999'],
             'currency' => ['nullable','exists:currencies,id'],
             'is_base' => ['required','boolean'],
@@ -63,6 +65,7 @@ class StoreCategory extends BaseComponent
             'type' => ['required']
         ],[],[
             'title' => 'عنوان',
+            'cart_label' => 'نام روی کارت',
             'price' => 'قیمت',
             'currency' => 'واحد پول',
             'is_base' => 'دسته بندی پایه',
@@ -79,6 +82,7 @@ class StoreCategory extends BaseComponent
             $category->image  = $this->image;
             $category->description  = $this->description;
             $category->type  = $this->type;
+            $category->cart_label  = $this->cart_label;
             $category->save();
             $this->emitNotify('اطلاعات با موفقیت ذخیره شد');
             DB::commit();
@@ -91,7 +95,7 @@ class StoreCategory extends BaseComponent
 
     public function resetData()
     {
-        $this->reset(['title','currency','price','is_base','image','description']);
+        $this->reset(['title','currency','price','is_base','image','description','cart_label']);
     }
 
     public function render()
