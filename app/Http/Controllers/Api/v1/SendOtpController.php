@@ -43,7 +43,7 @@ class SendOtpController extends Controller
     private function rateLimiter($phone): bool
     {
         $rateKey = 'verify-attempt-otp:' . $phone;
-        if (RateLimiter::tooManyAttempts($rateKey, 30)) {
+        if (RateLimiter::tooManyAttempts($rateKey, 100)) {
             return true;
         }
         RateLimiter::hit($rateKey, 3 * 60 * 60);
