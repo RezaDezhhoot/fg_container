@@ -125,7 +125,7 @@ class Container extends BaseComponent
         {"id":187544,"title":"\u06af\u06cc\u0641\u062a \u06a9\u0627\u0631\u062a 10 \u062f\u0644\u0627\u0631\u06cc psn \u0622\u0645\u0631\u06cc\u06a9\u0627-copy"},
         {"id":187230,"title":"Valorant Point"},
         ]}},"status":"success"}
-        ');
+        ',true);
         $products = collect($response['data']['products']['records'])
             ->pluck('title','id')
             ->toArray();

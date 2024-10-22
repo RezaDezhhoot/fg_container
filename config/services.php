@@ -31,7 +31,7 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
     'recaptcha' => [
-        'site_key' => '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
-        'secret_key' => '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe',
+        'site_key' => '6LeNn2IhAAAAABd6vvyeScehHwuUbNrTgh6sLhVy',
+        'secret_key' => '6LeNn2IhAAAAACc5PxvkacJuOunfXeB-AGPTg2kR',
     ],
 ];
