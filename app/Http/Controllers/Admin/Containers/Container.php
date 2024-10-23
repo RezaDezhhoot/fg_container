@@ -123,7 +123,11 @@ class Container extends BaseComponent
         {"id":187517,"title":"\u0628\u0627\u0646\u062f\u0644 \u062c\u06a9 \u0644\u06cc\u0646\u06a9 | jack link"},
         {"id":187531,"title":"20 \u0644\u06cc\u0631 \u0627\u0633\u062a\u06cc\u0645 \u0631\u06cc\u062c\u0646 \u062a\u0631\u06a9\u06cc\u0647-copy"},
         {"id":187544,"title":"\u06af\u06cc\u0641\u062a \u06a9\u0627\u0631\u062a 10 \u062f\u0644\u0627\u0631\u06cc psn \u0622\u0645\u0631\u06cc\u06a9\u0627-copy"},
-        {"id":187230,"title":"Valorant Point"}
+        {"id":187230,"title":"Valorant Point"},
+        {"id":187417,"title":"5350 عدد پوینت ترکیه"},
+        {"id":187418,"title":"3650 عدد پوینت ترکیه"},
+        {"id":187416,"title":"1000 عدد پوینت ترکیه"},
+        {"id":187414,"title":"475 عدد پوینت ترکیه"},
         ]}},"status":"success"}
         ',true);
         $products = collect($response['data']['products']['records'])
