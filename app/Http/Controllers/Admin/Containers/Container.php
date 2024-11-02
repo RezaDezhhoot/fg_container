@@ -127,7 +127,8 @@ class Container extends BaseComponent
         {"id":187417,"title":"5350 عدد پوینت ترکیه"},
         {"id":187418,"title":"3650 عدد پوینت ترکیه"},
         {"id":187416,"title":"1000 عدد پوینت ترکیه"},
-        {"id":187414,"title":"475 عدد پوینت ترکیه"}
+        {"id":187414,"title":"475 عدد پوینت ترکیه"},
+        {"id":187267,"title":"2050 عدد پوینت ترکیه"}
         ]}},"status":"success"}
         ',true);
         $products = collect($response['data']['products']['records'])
