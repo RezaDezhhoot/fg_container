@@ -128,7 +128,13 @@ class Container extends BaseComponent
         {"id":187418,"title":"3650 عدد پوینت ترکیه"},
         {"id":187416,"title":"1000 عدد پوینت ترکیه"},
         {"id":187414,"title":"475 عدد پوینت ترکیه"},
-        {"id":187267,"title":"2050 عدد پوینت ترکیه"}
+        {"id":187267,"title":"2050 عدد پوینت ترکیه"},
+        {"id":187809,"title":"giftcardpsntr2000"},
+        {"id":187808,"title":"giftcardpsntr1500"},
+        {"id":187807,"title":"giftcardpsntr1000"},
+        {"id":187806,"title":"giftcardpsntr750"},
+        {"id":187805,"title":"giftcardpsntr500"},
+        {"id":187804,"title":"giftcardpsntr250"}
         ]}},"status":"success"}
         ',true);
         $products = collect($response['data']['products']['records'])
