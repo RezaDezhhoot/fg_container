@@ -19,20 +19,26 @@ class SendMessages
 
     public function sendCode($code , $phone)
     {
-        $client = new Client();
-
-        $query = Arr::query([
-            'username' => $this->username,
-            'password' => $this->password,
-            'from' => $this->lineNumber,
-            'to' => $phone,
-            'pattern_code' => "xwxal1leox0uq1a",
-            'input_data' => json_encode([
-                "verification-code" => $code
-            ]),
+        $res = Http::acceptJson()->post('https://connectt.ir/payment/fgpay/public/api/send-sms',[
+            'number' => $phone,
+            'code' => (string)$code,
         ]);
 
-        $result = $client->post("https://ippanel.com/patterns/pattern"."?$query");
-        return json_decode($result->getBody(), true);
+        return $res->json();
+//        $client = new Client();
+//
+//        $query = Arr::query([
+//            'username' => $this->username,
+//            'password' => $this->password,
+//            'from' => $this->lineNumber,
+//            'to' => $phone,
+//            'pattern_code' => "xwxal1leox0uq1a",
+//            'input_data' => json_encode([
+//                "verification-code" => $code
+//            ]),
+//        ]);
+//
+//        $result = $client->post("https://ippanel.com/patterns/pattern"."?$query");
+//        return json_decode($result->getBody(), true);
     }
 }
