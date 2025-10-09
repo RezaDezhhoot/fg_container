@@ -34,4 +34,8 @@ return [
         'site_key' => '6LeNn2IhAAAAABd6vvyeScehHwuUbNrTgh6sLhVy',
         'secret_key' => '6LeNn2IhAAAAACc5PxvkacJuOunfXeB-AGPTg2kR',
     ],
+    'giftcartland' => [
+        'baseurl' => env("GIFT_CART_LAND_BASE_URL",'https://giftcartland.com/api'),
+        'apiKey' => env("GIFT_CART_LAND_API_KEY")
+    ]
 ];

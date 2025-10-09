@@ -26,7 +26,8 @@ class CartResource extends JsonResource
             'price' => $this->category->price,
             'symbol' => $this->category->currency->symbol ?? 't',
             'type' => $this->type,
-            'is_charged' => $this->is_charged
+            'is_charged' => $this->is_charged,
+            'balance' => $this->balance
         ];
     }
 }

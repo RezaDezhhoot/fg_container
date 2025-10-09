@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->string('cart_number')->unique();
-            $table->string('cart_cvv2');
-            $table->text('image');
-            $table->string('expire');
+            $table->string('cart_number')->unique()->nullable();
+            $table->string('cart_cvv2')->nullable();
+            $table->text('image')->nullable();
+            $table->string('expire')->nullable();
             $table->bigInteger('category_id')->unsigned()->index()->nullable();
             $table->bigInteger('panel_id')->unsigned()->index()->nullable();
             $table->string('status');
