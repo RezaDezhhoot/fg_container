@@ -14,4 +14,9 @@ class UnsignedCart extends Model
     protected $casts = [
         'used' => 'boolean'
     ];
+
+    public function cart()
+    {
+        return $this->hasOne(Cart::class,'cart_number','masked_pan');
+    }
 }
