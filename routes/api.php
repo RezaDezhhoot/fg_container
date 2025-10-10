@@ -26,6 +26,7 @@ Route::prefix('v1')->group(function (){
     Route::get('/products', SendReportsController::class);
     Route::get('/carts', [\App\Http\Controllers\Api\v1\PanelController::class,'index']);
     Route::get('/carts/{id}', [\App\Http\Controllers\Api\v1\PanelController::class,'show']);
+    Route::post('/deposit', [\App\Http\Controllers\Api\v1\PanelController::class,'deposit']);
     Route::get('/categories', [\App\Http\Controllers\Api\v1\CategoryController::class,'index']);
     Route::get('/categories-type', [\App\Http\Controllers\Api\v1\CategoryController::class,'getTypes']);
 //    Route::put('/update-profile', [\App\Http\Controllers\Api\v1\PanelController::class,'update']);

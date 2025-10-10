@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PanelToken;
 use App\Http\Resources\v1\CartResource;
 use App\Models\Cart;
+use App\Models\CartCharge;
 use App\Models\Panel;
 use App\Models\UnsignedCart;
 use Illuminate\Http\Request;
@@ -41,6 +42,25 @@ class PanelController extends Controller
             ],404);
         }
         return response()->json($res->json());
+    }
+
+    public function deposit(Request $request)
+    {
+        $request->validate([
+            'amount' => ['required','min:1','max:10000'],
+            'panel_id' => ['required','exists:panels,id'],
+            'number' => ['required'],
+        ]);
+        $unsignedCart = UnsignedCart::query()->where('masked_pan' , $request->number)->where('used', true)->firstOrFail();
+        $data = CartCharge::query()->create([
+            ... $request->only(['amount','panel_id']),
+            'unsigned_cart_id' => $unsignedCart->id
+        ]);
+        return response()->json(
+            [
+                'data' => $data
+            ]
+        );
     }
 
     public function update(PanelToken $panelToken)
