@@ -25,10 +25,8 @@ class SendCartRequest extends FormRequest
     {
         return [
             'phone' => 'required|exists:panels,phone',
-            'code' => 'required|string',
-            'category_id' => 'nullable|exists:categories,id',
             'base_id' => 'required|integer',
-            'cart_id' => 'nullable'
+            'panel_id' => ['required','exists:panels,id']
         ];
     }
 

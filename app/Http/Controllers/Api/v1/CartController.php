@@ -32,71 +32,13 @@ class CartController extends Controller
 //                    'status' => 'error'
 //                ], 429);
 
-        if (!$request->filled('category_id')) {
-            $cart = Cart::query()->findOrFail($request->get('cart_id'));
-            $cart->update([
-                'is_charged' => true
-            ]);
-            return \response([
-                'data' => [
-                    'message' => 'ok'
-                ],
-                'status' => 'success'
-            ], 200);
-        }
-
-        if (!\App\Models\Request::where('code', $request['code'])->exists() || app()->environment('local')) {
-            $ValidCode = $this->ValidCode($request['code']);
-            if ($ValidCode['status'] == 200) {
-                return $this->send($request);
-            } else {
-                return \response([
-                    'data' => [
-                        'message' => $ValidCode['message']
-                    ],
-                    'status' => 'error'
-                ], $ValidCode['status']);
-            }
-        } else {
-            $data = ['status' => 422, 'message' => 'invalid code'];
-            $this->insertRequest($data);
-            return \response([
-                'data' => [
-                    'message' => $data['message']
-                ],
-                'status' => 'error'
-            ], $data['status']);
-        }
+        $cart = Cart::query()->create([
+            'panel_id' => $request->panel_id,
+            'status' => CartEnum::USED,
+        ]);
+        return $this->send($cart);
     }
 
-    private function ValidCode($code): array
-    {
-        $salt = config('site.salt');
-        try {
-            $decrypt = explode('-', base64_decode($code));
-            if (
-                ( $decrypt[1] && is_numeric($decrypt[1]) && sizeof($decrypt) == 4 && $decrypt[0] == md5($salt . $decrypt[1] . $salt)) ||
-                app()->environment('local')
-            ) {
-                if (Cart::query()->ready()->whereHas('category',fn($q) => $q->where('id',$decrypt[1]))->exists()) {
-                    $this->category_id = $decrypt[1];
-                    return ['status' => 200, 'message' => 'درخواست معتبر'];
-                } else {
-                    $data =  ['status' => 404, 'message' => 'product not found'];
-                    $this->insertRequest($data);
-                    return $data;
-                }
-            } else {
-                $data = ['status' => 422, 'message' => 'product key required'];
-                $this->insertRequest($data);
-                return $data;
-            }
-        } catch (\Exception $e) {
-            $data = ['status' => 500, 'message' => $e->getMessage()];
-            $this->insertRequest($data);
-            return $data;
-        }
-    }
 
     private function insertRequest($data)
     {
@@ -121,18 +63,9 @@ class CartController extends Controller
         return false;
     }
 
-    private function send($request)
+    private function send($cart)
     {
         try {
-            DB::beginTransaction();
-            $cart = Cart::query()->whereHas('category',function ($q){
-                return $q->where('id',$this->category_id);
-            })->ready()->take(1)->first();
-            $cart->update([
-                'status' => CartEnum::USED,
-                'panel_id' => Panel::query()->where('phone',$request->get('phone'))->first()->id
-            ]);
-            DB::commit();
             return \response([
                 'data' => [
                     'message' => 'ok'
