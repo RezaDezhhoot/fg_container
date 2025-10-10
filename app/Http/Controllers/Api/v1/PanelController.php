@@ -52,9 +52,24 @@ class PanelController extends Controller
             'number' => ['required'],
         ]);
         $unsignedCart = UnsignedCart::query()->where('masked_pan' , $request->number)->where('used', true)->firstOrFail();
+        $conf = config('services.giftcartland');
+        $res = Http::acceptJson()
+            ->baseUrl($conf['baseurl'])
+            ->withHeaders([
+                'authorization' => $conf['apiKey']
+            ])->post('/v1/finance/change-card-balance/'.$unsignedCart->cart_id , [
+                'mode' => 1,
+                'amount' => $request->amount
+            ]);
+        $confirm = false;
+        if ($res->successful()) {
+            $confirm = true;
+        }
+
         $data = CartCharge::query()->create([
             ... $request->only(['amount','panel_id']),
-            'unsigned_cart_id' => $unsignedCart->id
+            'unsigned_cart_id' => $unsignedCart->id,
+            'confirm' => $confirm
         ]);
         return response()->json(
             [
