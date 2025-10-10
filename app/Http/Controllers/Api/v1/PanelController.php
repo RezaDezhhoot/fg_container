@@ -7,7 +7,9 @@ use App\Http\Requests\PanelToken;
 use App\Http\Resources\v1\CartResource;
 use App\Models\Cart;
 use App\Models\Panel;
+use App\Models\UnsignedCart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class PanelController extends Controller
 {
@@ -22,6 +24,23 @@ class PanelController extends Controller
                 'data' => CartResource::collection($carts)
             ]
         );
+    }
+
+    public function show($id)
+    {
+        $cart = UnsignedCart::query()->where('masked_pan' , $id)->firstOrFail();
+        $conf = config('services.giftcartland');
+        $res = Http::acceptJson()
+            ->baseUrl($conf['baseurl'])
+            ->withHeaders([
+                'authorization' => $conf['apiKey']
+            ])->get('/v1/finance/card-detail/' . $cart->cart_id);
+        if (! $res->successful()) {
+            return response()->json([
+                'message' => $res->json()
+            ],404);
+        }
+        return response()->json($res->json());
     }
 
     public function update(PanelToken $panelToken)
