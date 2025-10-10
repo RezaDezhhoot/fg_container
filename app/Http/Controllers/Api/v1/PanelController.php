@@ -44,6 +44,58 @@ class PanelController extends Controller
         return response()->json($res->json());
     }
 
+    public function transfer(Request $request)
+    {
+        $request->validate([
+            'amount' => ['required','min:1','max:10000'],
+            'panel_id' => ['required','exists:panels,id'],
+            'from_number' => ['required'],
+            'to_number' => ['required'],
+        ]);
+        $unsignedCart = UnsignedCart::query()->where('masked_pan' , $request->from_number)->where('used', true)->firstOrFail();
+        $toUnsignedCart = UnsignedCart::query()->where('masked_pan' , $request->to_number)->firstOrFail();
+        $conf = config('services.giftcartland');
+        $res = Http::acceptJson()
+            ->baseUrl($conf['baseurl'])
+            ->withHeaders([
+                'authorization' => $conf['apiKey']
+            ])->post('/v1/finance/change-card-balance/'.$unsignedCart->cart_id , [
+                'mode' => 0,
+                'amount' => $request->amount
+            ]);
+        if (! $res->successful()) {
+            return response()->json(
+                [
+                    'data' => "خظا در عملیات انتقال"
+                ]
+            ,400);
+        }
+        $res = Http::acceptJson()
+            ->baseUrl($conf['baseurl'])
+            ->withHeaders([
+                'authorization' => $conf['apiKey']
+            ])->post('/v1/finance/change-card-balance/'.$toUnsignedCart->cart_id , [
+                'mode' => 1,
+                'amount' => $request->amount
+            ]);
+        if (! $res->successful()) {
+            $data = CartCharge::query()->create([
+                ... $request->only(['amount','panel_id']),
+                'unsigned_cart_id' => $toUnsignedCart->id,
+            ]);
+            return response()->json(
+                [
+                    'data' => $data
+                ]
+            );
+        }
+        return response()->json(
+            [
+                'data' => "ok"
+            ]
+        );
+    }
+
     public function deposit(Request $request)
     {
         $request->validate([
