@@ -87,7 +87,7 @@ class PanelController extends Controller
                 [
                     'data' => $data
                 ]
-            );
+            ,201);
         }
         return response()->json(
             [
