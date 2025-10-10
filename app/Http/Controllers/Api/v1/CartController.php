@@ -35,6 +35,7 @@ class CartController extends Controller
         $cart = Cart::query()->create([
             'panel_id' => $request->panel_id,
             'status' => CartEnum::USED,
+            'is_new' => true,
         ]);
         return $this->send($cart);
     }
