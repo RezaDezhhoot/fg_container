@@ -116,6 +116,7 @@ class StorePanel extends BaseComponent
     public function searchCart()
     {
         $this->searches = Cart::query()
+            ->whereHas('cart')
             ->latest()
 //            ->ready()
             ->where('cart_number','like','%'.$this->search.'%')

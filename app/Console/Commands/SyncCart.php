@@ -80,8 +80,9 @@ class SyncCart extends Command
                         $cart->fill([
                             'cart_number' => $c['masked_pan'],
                             'cart_cvv2' => $cartDetails['cvv'],
-                            'expire' => $cartDetails['expiry_year'].'/'.$cartDetails['expiry_year'],
-                            'balance' => $cartDetails['total_balance']
+                            'expire' => $cartDetails['expiry_year'].'/'.$cartDetails['expiry_month'],
+                            'balance' => $cartDetails['total_balance'],
+                            'is_new' => true
                         ])->save();
                         $c->fill(['used' => true])->save();
                         DB::commit();

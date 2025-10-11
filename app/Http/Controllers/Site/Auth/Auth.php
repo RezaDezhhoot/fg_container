@@ -25,7 +25,6 @@ class Auth extends Component
 
     public function login()
     {
-
         $this->validate([
             'phone' => ['required','string','max:250'],
             'password' => ['required','string','max:250'],

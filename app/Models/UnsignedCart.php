@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\Admin\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class UnsignedCart extends Model
 {
-    use HasFactory;
+    use HasFactory , Searchable;
+
+    protected $searchAbleColumns = ['masked_pan','cart_id'];
 
     protected $guarded = ['id'];
 

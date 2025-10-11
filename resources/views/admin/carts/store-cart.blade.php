@@ -8,12 +8,11 @@
         <x-admin.forms.validation-errors/>
         <div class="card-body">
             <x-admin.forms.input type="text" id="cart_number" label="شماره کارت*" wire:model.defer="cart_number"/>
+            <x-admin.forms.input type="text" id="cart_id" label="ای دی کارت*" wire:model.defer="cart_id"/>
+            <x-admin.forms.input type="text" id="name" label="نام کارت*" wire:model.defer="name"/>
+            <x-admin.forms.checkbox type="text" id="used" value="1" label="کارت استفاده شده است" wire:model.defer="used"/>
             <x-admin.forms.input type="text" id="cart_cvv2" label="cvv2*" wire:model.defer="cart_cvv2"/>
-            <x-admin.forms.lfm-standalone id="image" label="تصویر*" :file="$image" type="image" required="true" wire:model="image"/>
             <x-admin.forms.input type="text" id="expire" label="تاریخ انقضا*" wire:model.defer="expire"/>
-            <x-admin.forms.dropdown :data="$data['category']" id="category" label="دسته بندی*" wire:model.defer="category"/>
-            <x-admin.forms.dropdown :data="$data['type']" id="type" label="نوع *" wire:model.defer="type"/>
-            <x-admin.forms.dropdown :data="$data['status']" id="status" label="وضعیت *" wire:model.defer="status"/>
         </div>
     </div>
 </div>

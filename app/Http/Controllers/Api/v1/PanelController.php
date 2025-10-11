@@ -70,6 +70,7 @@ class PanelController extends Controller
                 ]
             ,400);
         }
+
         $res = Http::acceptJson()
             ->baseUrl($conf['baseurl'])
             ->withHeaders([

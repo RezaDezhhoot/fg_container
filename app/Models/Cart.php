@@ -26,6 +26,10 @@ class Cart extends Model
 
     protected $guarded = ['id'];
 
+    public function cart()
+    {
+        return $this->hasOne(UnsignedCart::class,'masked_pan','cart_number');
+    }
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
