@@ -28,8 +28,8 @@ class StoreCart extends BaseComponent
             $this->cart_id = $this->cart->cart_id;
             $this->name = $this->cart->name;
             $this->used = $this->cart->used;
-            $this->cart_cvv2 = $this->cart?->cart->cart_cvv2;
-            $this->expire = $this->cart?->cart->expire;
+            $this->cart_cvv2 = $this->cart?->cart?->cart_cvv2;
+            $this->expire = $this->cart?->cart?->expire;
         } elseif ($this->mode == self::CREATE_MODE) {
             $this->header = 'کارت جدید';
         } else abort(404);
