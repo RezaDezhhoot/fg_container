@@ -95,7 +95,10 @@ class StorePanel extends BaseComponent
                             'panel_id' => $panel->id,
                             'status' => CartEnum::USED,
                             'used' => true,
-                            'name' => $cart->cart->name
+                            'name' => $cart->cart?->name
+                        ]);
+                        $cart->cart?->update([
+                            'used' => true,
                         ]);
                     }
                 }
