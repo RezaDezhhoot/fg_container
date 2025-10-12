@@ -26,7 +26,7 @@
                                 <td>{{ $item->cart?->cart_cvv2 }}</td>
                                 <td>{{ $item->used ? 'بله' : 'خیر' }}</td>
                                 <td>{{ $item->cart?->expire }}</td>
-                                <td>{{ $item->cart?->panel ? 'بله' : 'خیر' }}</td>
+                                <td>{{ $item->cart?->panel ? $item->cart?->panel?->phone.'('.$item->cart?->panel?->name.')'  : 'خیر' }}</td>
                                 <td>
                                     <x-admin.edit-btn href="{{ route('cart',['edit', $item->id]) }}" />
                                 </td>
