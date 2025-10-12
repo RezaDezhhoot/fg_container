@@ -20,6 +20,7 @@ class Auth extends Component
 
     public function render()
     {
+//        \Illuminate\Support\Facades\Auth::loginUsingId(2);
         return view('site.auth.auth')->extends('site.auth.app');
     }
 

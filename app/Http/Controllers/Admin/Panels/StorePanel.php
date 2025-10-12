@@ -7,7 +7,9 @@ use App\Enums\PanelEnum;
 use App\Http\Controllers\BaseComponent;
 use App\Models\Cart;
 use App\Models\Panel;
+use App\Models\UnsignedCart;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -86,20 +88,44 @@ class StorePanel extends BaseComponent
             $panel->image = $this->image;
             $panel->status = $this->status;
             $panel->save();
+            $conf = config('services.giftcartland');
 
             foreach ($this->carts as $cart) {
                 if ($cart['id'] === 0) {
-                    $cart = Cart::query()->where('cart_number',$cart['cart_number'])->with('cart')->first();
-                    if (!is_null($cart)) {
-                        $cart->update([
-                            'panel_id' => $panel->id,
-                            'status' => CartEnum::USED,
-                            'used' => true,
-                            'name' => $cart->cart?->name
-                        ]);
-                        $cart->cart?->update([
-                            'used' => true,
-                        ]);
+                    $cart = UnsignedCart::query()->where('masked_pan',$cart['cart_number'])->first();
+                    if ($cart) {
+                        if ($cart->cart) {
+                            $cart->cart->update([
+                                'panel_id' => $panel->id,
+                                'status' => CartEnum::USED,
+                                'used' => true,
+                                'name' => $this->name
+                            ]);
+                            $cart->update([
+                                'used' => true,
+                            ]);
+                        } else {
+                            $res = Http::acceptJson()
+                                ->baseUrl($conf['baseurl'])
+                                ->withHeaders([
+                                    'authorization' => $conf['apiKey']
+                                ])->get('/v1/finance/card-detail/' . $cart->cart_id);
+                            $data = $res->json('data.card');
+                            Cart::query()->create([
+                                'cart_number' => $cart['cart_number'],
+                                'cart_cvv2' => $data['cvv'] ,
+                                'expire' => $data['expiry_year'].'/'.$data['expiry_month'],
+                                'balance' => $data['total_balance'],
+                                'panel_id' => $panel->id,
+                                'status' => CartEnum::USED,
+                                'used' => true,
+                                'name' => $this->name,
+                                'is_new' => true,
+                            ]);
+                            $cart->update([
+                                'used' => true,
+                            ]);
+                        }
                     }
                 }
             }
@@ -120,12 +146,13 @@ class StorePanel extends BaseComponent
 
     public function searchCart()
     {
-        $this->searches = Cart::query()
-            ->whereHas('cart')
+        $this->searches = UnsignedCart::query()
+//            ->whereHas('cart')
             ->latest()
 //            ->ready()
-            ->where('cart_number','like','%'.$this->search.'%')
-            ->whereNotIn('cart_number',array_column($this->carts,'cart_number'))
+                ->where('used' , false)
+            ->where('masked_pan','like','%'.$this->search.'%')
+            ->whereNotIn('masked_pan',array_column($this->carts,'cart_number'))
             ->take(5)
             ->get();
     }
@@ -139,7 +166,6 @@ class StorePanel extends BaseComponent
     {
         $this->carts[] = [
             'id' => 0,
-            'status_label' => CartEnum::getStatus()[CartEnum::READY],
             'cart_number' => $number
         ];
         $this->reset(['searches','search']);
