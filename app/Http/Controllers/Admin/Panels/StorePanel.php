@@ -89,12 +89,13 @@ class StorePanel extends BaseComponent
 
             foreach ($this->carts as $cart) {
                 if ($cart['id'] === 0) {
-                    $cart = Cart::query()->where('cart_number',$cart['cart_number'])->first();
+                    $cart = Cart::query()->where('cart_number',$cart['cart_number'])->with('cart')->first();
                     if (!is_null($cart)) {
                         $cart->update([
                             'panel_id' => $panel->id,
                             'status' => CartEnum::USED,
-                            'used' => true
+                            'used' => true,
+                            'name' => $cart->cart->name
                         ]);
                     }
                 }
