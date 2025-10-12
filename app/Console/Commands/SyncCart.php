@@ -58,6 +58,7 @@ class SyncCart extends Command
             $unsignedCarts = UnsignedCart::query()
                 ->oldest('id')
                 ->take($carts->count())
+                ->whereDoesntHave('cart')
                 ->where('used' , false)
                 ->get();
             if ($unsignedCarts->count() > 0) {
