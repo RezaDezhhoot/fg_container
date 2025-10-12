@@ -59,6 +59,7 @@
                                     <th>#</th>
                                     <th>شارژ </th>
                                     <th>وضیعت</th>
+                                    <th>تاریخ</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -67,6 +68,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item['amount']  }}</td>
                                         <td>{{ $item['confirm'] ? 'پرداخت شده' : 'پرداخت نشده'  }}</td>
+                                        <td>{{ $item->created_at }}</td>
                                     </tr>
                                 @empty
                                     <td class="text-center" colspan="11">
