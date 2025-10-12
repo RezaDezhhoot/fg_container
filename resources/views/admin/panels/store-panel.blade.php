@@ -49,6 +49,36 @@
                     </div>
                 </div>
             </x-admin.form-section>
+            @if($panel)
+                <x-admin.form-section label="شارژ ها">
+                    <div class="row">
+                        <div class="col-lg-12 table-responsive">
+                            <table  class="table table-striped table-bordered" id="kt_datatable">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>شارژ </th>
+                                    <th>وضیعت</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @forelse($panel->charges as $key => $item)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item['amount']  }}</td>
+                                        <td>{{ $item['confirm'] ? 'پرداخت شده' : 'پرداخت نشده'  }}</td>
+                                    </tr>
+                                @empty
+                                    <td class="text-center" colspan="11">
+                                        دیتایی جهت نمایش وجود ندارد
+                                    </td>
+                                @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </x-admin.form-section>
+            @endif
         </div>
     </div>
     <x-admin.modal-page id="carts" title="افزودن کارت چدید" wire:click="" :btn="false">

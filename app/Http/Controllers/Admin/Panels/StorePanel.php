@@ -23,7 +23,7 @@ class StorePanel extends BaseComponent
     {
         $this->set_mode($action);
         if ($this->mode == self::UPDATE_MODE) {
-            $this->panel = Panel::query()->findOrFail($id);
+            $this->panel = Panel::query()->with(['charges'])->findOrFail($id);
             $this->header = $this->panel->name;
             $this->name = $this->panel->name;
             $this->username = $this->panel->username;

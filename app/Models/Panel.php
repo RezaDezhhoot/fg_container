@@ -42,4 +42,8 @@ class Panel extends Model
         );
     }
 
+    public function charges(): HasMany
+    {
+        return $this->hasMany(CartCharge::class,'panel_id');
+    }
 }
