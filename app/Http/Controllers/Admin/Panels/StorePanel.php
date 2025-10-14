@@ -112,7 +112,7 @@ class StorePanel extends BaseComponent
                                 ])->get('/v1/finance/card-detail/' . $cart->cart_id);
                             $data = $res->json('data.card');
                             Cart::query()->create([
-                                'cart_number' => $cart['cart_number'],
+                                'cart_number' => $cart['masked_pan'],
                                 'cart_cvv2' => $data['cvv'] ,
                                 'expire' => $data['expiry_year'].'/'.$data['expiry_month'],
                                 'balance' => $data['total_balance'],
