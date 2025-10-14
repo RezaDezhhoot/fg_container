@@ -20,7 +20,7 @@ class IndexCart extends BaseComponent
 
     public function render()
     {
-        $items = UnsignedCart::query()->with(['cart','cart.panel'])->latest()->search($this->search)->paginate($this->per_page);
+        $items = UnsignedCart::query()->with(['cart','cart.panel'])->latest('id')->search($this->search)->paginate($this->per_page);
         return view('admin.carts.index-cart',['items'=>$items])->extends('admin.includes.admin');
     }
 }
