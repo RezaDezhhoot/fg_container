@@ -22,6 +22,7 @@ class Panel extends Model
 {
     use HasFactory , Searchable;
     protected array $searchAbleColumns = ['username','name','phone'];
+    protected $guarded = ['id'];
 
     public function statusLabel():Attribute
     {

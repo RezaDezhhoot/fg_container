@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PanelToken;
+use App\Http\Resources\v1\AuthResource;
 use App\Http\Resources\v1\CartResource;
 use App\Models\Cart;
 use App\Models\CartCharge;
 use App\Models\Panel;
 use App\Models\UnsignedCart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 
 class PanelController extends Controller
@@ -134,5 +137,30 @@ class PanelController extends Controller
     public function update(PanelToken $panelToken)
     {
 
+    }
+
+    public function generate(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $request->validate([
+            'phone' => ['required','string'],
+            'name' => ['nullable','string']
+        ]);
+        $panel = Panel::query()
+            ->firstOrCreate([
+                'phone' => $request->input('phone'),
+            ],[
+                'status' => 'active',
+                'name' => $request->input('name','بی نام'),
+                'phone' => $request->input('phone'),
+                'username' => $request->input('phone'),
+                'password' => Hash::make(uniqid())
+            ]);
+        if (! $panel->token) {
+            $panel->token = Crypt::encrypt(config('site.salt').microtime().$panel->username.$panel->phone);
+            $panel->save();
+        }
+        return response()->json(
+            ['data' => AuthResource::make($panel)]
+        );
     }
 }
