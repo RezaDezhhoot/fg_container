@@ -9,6 +9,7 @@ use App\Models\Cart;
 use App\Models\Panel;
 use App\Models\UnsignedCart;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
@@ -65,14 +66,12 @@ class StorePanel extends BaseComponent
         $this->validate([
             'username' => ['required','string','max:120','unique:panels,username,'.($this->panel->id ?? 0)],
             'phone' => ['required','string','max:120','unique:panels,phone,'.($this->panel->id ?? 0)],
-            'password' => [Rule::requiredIf(fn( ) => $this->mode ==  self::CREATE_MODE || $panel->isDirty('password') ),'max:180'],
             'name' => ['required','string','max:100'],
             'image' => ['nullable','string','max:1000'],
             'status' => ['required','in:'.implode(',',array_keys($this->data['status']))]
         ],[],[
             'username' => 'نام کاربری',
             'phone' => 'شماره همراه',
-            'password' => 'رمزعبور',
             'name' => 'نام',
             'image' => 'تصویر',
             'status' => 'وضعیت'
@@ -82,8 +81,7 @@ class StorePanel extends BaseComponent
             DB::beginTransaction();
             $panel->username = $this->username;
             $panel->phone = $this->phone;
-            if (!empty($this->password) || $this->mode == self::CREATE_MODE)
-                $panel->password = $this->password;
+            $panel->password = Hash::make(uniqid());
             $panel->name = $this->name;
             $panel->image = $this->image;
             $panel->status = $this->status;

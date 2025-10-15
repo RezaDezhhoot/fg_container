@@ -9,7 +9,6 @@
         <div class="card-body">
             <x-admin.forms.input type="text" id="username" label="نام کاربری*" wire:model.defer="username"/>
             <x-admin.forms.input type="text" id="phone" label="شماره همراه*" wire:model.defer="phone"/>
-            <x-admin.forms.input type="text" id="password" help="درصورت خالی گذاشتن نغییراتی اعمال نمی شود" label="رمز عبور*" wire:model.defer="password"/>
             <x-admin.forms.input type="text" id="name" label="نام*" wire:model.defer="name"/>
             <x-admin.forms.lfm-standalone id="image" label="تصویر*" :file="$image" type="image" required="true" wire:model="image"/>
             <x-admin.forms.dropdown :data="$data['status']" id="status" label="وضعیت *" wire:model.defer="status"/>
