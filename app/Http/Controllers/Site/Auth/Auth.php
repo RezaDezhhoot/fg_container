@@ -29,11 +29,11 @@ class Auth extends Component
         $this->validate([
             'phone' => ['required','string','max:250'],
             'password' => ['required','string','max:250'],
-            'recaptcha' => ['required', new ReCaptchaRule],
+//            'recaptcha' => ['required', new ReCaptchaRule],
         ],[],[
             'phone' => 'شماره همراه یا نام کاربری',
             'password' => 'رمز عبور',
-            'recaptcha' => 'فیلد امنیتی'
+//            'recaptcha' => 'فیلد امنیتی'
         ]);
 
         $user = User::where('phone', $this->phone)->orWhere('email',$this->phone)->first();
