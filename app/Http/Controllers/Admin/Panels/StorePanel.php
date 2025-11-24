@@ -80,7 +80,7 @@ class StorePanel extends BaseComponent
         try {
             DB::beginTransaction();
             $panel->username = $this->username;
-            $panel->phone = $this->phone;
+            $panel->phone = $this->phone;$
             $panel->password = Hash::make(uniqid());
             $panel->name = $this->name;
             $panel->image = $this->image;

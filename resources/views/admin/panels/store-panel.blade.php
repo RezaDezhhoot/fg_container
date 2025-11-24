@@ -32,7 +32,7 @@
                                 @forelse($carts as $key => $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item['cart_number']  }}</td>
+                                        <td>{{ $item['cart_number'] ?? 'نعریف نشده' }}</td>
                                         <td>استفاده شده</td>
                                         <td>
                                             <x-admin.delete-btn onclick="removeCart({{$item['id']}},{{$key}})" />
