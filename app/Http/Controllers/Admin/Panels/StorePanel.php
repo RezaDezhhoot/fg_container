@@ -33,7 +33,7 @@ class StorePanel extends BaseComponent
             $this->phone = $this->panel->phone;
             $this->image = $this->panel->image;
             $this->status = $this->panel->status;
-            $this->carts = $this->panel->carts()->latest()->select('id','status','cart_number')->take(50)->get();
+            $this->carts = $this->panel->carts()->latest()->select('id','status','cart_number','order_id')->take(50)->get();
             $this->carts->each(function ($model){
                $model->setAppends(['status_label']);
             });
