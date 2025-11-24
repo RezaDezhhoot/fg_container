@@ -25,6 +25,7 @@
                                 <th>#</th>
                                 <th>شماره کارت</th>
                                 <th>وضیعت</th>
+                                <th>کد سفارش</th>
                                 <th>عملیات</th>
                             </tr>
                             </thead>
@@ -34,6 +35,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item['cart_number'] ?? 'نعریف نشده' }}</td>
                                         <td>استفاده شده</td>
+                                        <td>{{ $item['order_id'] ?? '-' }}</td>
                                         <td>
                                             <x-admin.delete-btn onclick="removeCart({{$item['id']}},{{$key}})" />
                                         </td>
