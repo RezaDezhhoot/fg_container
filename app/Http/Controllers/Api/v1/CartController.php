@@ -37,7 +37,8 @@ class CartController extends Controller
             'status' => CartEnum::USED,
             'is_new' => true,
             'name' => $request->input('name'),
-            'phone' => $request->input('phone')
+            'phone' => $request->input('phone'),
+            'order_id' => $request->input('base_id')
         ]);
         return $this->send($cart);
     }
